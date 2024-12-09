@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz OC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Resetowanie */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin: 0 15px;
+            transition: background 0.3s, color 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        nav a.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+        }
+
+        .form-container {
+            background: #fff;
+            color: #333;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin-top: 100px;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #6a11cb;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #6a11cb;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2575fc;
+            box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .button-group button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-3px);
+        }
+
+        .button-group .prev-btn {
+            background: #ccc;
+            color: #333;
+        }
+
+        .button-group .prev-btn:hover {
+            background: #bbb;
+        }
+        .option-box {
+        border: 2px solid transparent;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background: #f9f9f9;
+        transition: all 0.3s ease;
+    }
+
+    .option-box.active {
+        border-color: #2575fc;
+        background: #e8f0ff;
+        box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        transform: translateY(-3px);
+    }
+
+    .option-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .option-header h3 {
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .stars {
+        font-size: 1.5rem;
+        color: gold;
+    }
+
+    .select-btn {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .select-btn:hover {
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        transform: translateY(-3px);
+    }
+    .container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.product {
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.product h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.product p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.product button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.product button:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    transform: translateY(-3px);
+}
+
+.cart {
+    margin-top: 20px;
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.cart ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cart ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 30px;
+        }
+
+        /* Animacje */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #888;
+            display: none;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .info-icon {
+            cursor: pointer;
+            color: #2575fc;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .info-text.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nawigacja -->
+    <nav>
+        <a href="main-new.html" >O mnie</a>
+        <a href="main-new.html">Kontakt</a>
+        <a href="main-new.html">Portfolio</a>
+        <a href="main-new.html">Ubezpieczenie</a>
+    </nav>
+
+    <!-- Formularz -->
+    <div class="form-container">
+        <h1>Formularz OC</h1>
+
+        <!-- Sekcja 1: Dane klienta -->
+        <div id="section0" class="form-section active">
+            <h2>Dane klienta:</h2>
+            <div class="form-group">
+                <label for="imie">Imię <span class="info-icon" onclick="toggleInfo('info1')">i</span></label>
+                <input type="text" id="imie" name="imie" placeholder="Jan">
+                <div id="info1" class="info-text">Podaj swoje pełne imię.</div>
+            </div>
+            <div class="form-group">
+                <label for="nazwisko">Nazwisko <span class="info-icon" onclick="toggleInfo('info2')">i</span></label>
+                <input type="text" id="nazwisko" name="nazwisko" placeholder="Kowalski">
+                <div id="info2" class="info-text">Podaj swoje pełne nazwisko.</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Adres e-mail <span class="info-icon" onclick="toggleInfo('info3')">i</span></label>
+                <input type="email" id="email" name="email" placeholder="jan.kowalski@example.com">
+                <div id="info3" class="info-text">Podaj swój adres e-mail, na który wyślemy potwierdzenie.</div>
+            </div>
+            <div class="form-group">
+                <label for="telefon">Numer telefonu <span class="info-icon" onclick="toggleInfo('info4')">i</span></label>
+                <input type="tel" id="telefon" name="telefon" placeholder="+48 123 456 789">
+                <div id="info4" class="info-text">Podaj swój numer telefonu, abyśmy mogli skontaktować się w razie potrzeby.</div>
+            </div>
+            <div class="form-group">
+                <label for="pesel">PESEL <span class="info-icon" onclick="toggleInfo('info5')">i</span></label>
+                <input type="text" id="pesel" name="pesel" placeholder="12345678901">
+                <div id="info5" class="info-text">Podaj swój numer PESEL.</div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="ubezpieczajacy" value="ubezpieczajacy">
+                    Klient jest ubezpieczającym aaa
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="ubezpieczony" value="ubezpieczony">
+                    Klient jest ubezpieczonym
+                </label>
+            </div>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection()">Wstecz</button>
+                <button onclick="showNextSection(1)">Dalej</button>
+            </div>
+        </div>
+
+        <!-- Sekcja 2: Dane adresowe i informacje o nieruchomości -->
+        <div id="section1" class="form-section">
+            <h2>Dane adresowe i informacje o nieruchomości:</h2>
+            <div class="form-group">
+                <label for="adres">Adres <span class="info-icon" onclick="toggleInfo('info6')">i</span></label>
+                <input type="text" id="adres" name="adres" placeholder="ul. Polna 4, 04-439 Warszawa">
+                <div id="info6" class="info-text">Podaj pełny adres, w tym ulicę i kod pocztowy.</div>
+            </div>
+            <div class="form-group">
+                <label for="wojewodztwo">Województwo <span class="info-icon" onclick="toggleInfo('info7')">i</span></label>
+                <input type="text" id="wojewodztwo" name="wojewodztwo" placeholder="Mazowieckie">
+                <div id="info7" class="info-text">Podaj województwo, w którym znajduje się nieruchomość.</div>
+            </div>
+            <div class="form-group">
+                <label for="powiat">Powiat <span class="info-icon" onclick="toggleInfo('info8')">i</span></label>
+                <input type="text" id="powiat" name="powiat" placeholder="Warszawa">
+                <div id="info8" class="info-text">Podaj powiat, w którym znajduje się nieruchomość.</div>
+            </div>
+            <div class="form-group">
+                <label for="gmina">Gmina <span class="info-icon" onclick="toggleInfo('info9')">i</span></label>
+                <input type="text" id="gmina" name="gmina" placeholder="Warszawa">
+                <div id="info9" class="info-text">Podaj powiat, w którym znajduje się nieruchomość.</div>
+            </div>
+            <div class="form-group">
+            <label for="dzialalnosc">W nieruchomości jest wykonywana działalność gospodarcza</label>
+            <select id="dzialalnosc" name="dzialalnosc">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="nie">Nie</option>
+                <option value="biurowa">Tak, działalność o charakterze biurowym</option>
+                <option value="pozostale">Tak, pozostałe typy działalności</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Typ zabudowy</label>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Wolnostojący</option>
+                <option value="blizniak">Bliźniak</option>
+                <option value="zabudowa-szeregowaz">W zabudowie szeregowej lub grupowej</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="liczba-pieter">Liczba pięter w budynku</label>
+            <span class="info-icon" onclick="toggleInfo('info1')">i</span>
+            <input type="number" id="liczba-pieter" name="liczba-pieter" min="0">
+            <div class="info-text" id="info1">Należy uwzględnić tylko kondygnacje nadziemne i przystosowane do użytkowania (np. zamieszkania lub prowadzenia działalności gospodarczej).
+                Parteru nie należy uwzględniać w liczbie pięter.<br>
+                Dla budynków parterowych należy wpisać 1.
+                W przypadku mieszkania/lokalu należy uwzględnić maksymalną liczbę pięter w pionie, w którym znajduje się nieruchomość.<br>
+                Jeśli w budynku występują mieszkania/lokale wielopoziomowe, w liczbie pięter należy uwzględnić wszystkie poziomy mieszkań/lokali (bez wliczania parteru). 
+             </div>
+        </div>
+        <div class="form-group">
+            <label for="powierzchnia">Powierzchnia użytkowa (m²)</label>
+            <span class="info-icon" onclick="toggleInfo('info2')">i</span>
+            <div class="info-text" id="info2">Powierzchnia użytkowa to suma powierzchni wszystkich pomieszczeń służących potrzebom mieszkalnym i gospodarczym mieszkańców, w szczególności pokoi, kuchni, spiżarni, przedpokoi, holi, korytarzy i łazienek.<br>
+                Do powierzchni użytkowej nie wlicza się powierzchni balkonów, loggii, tarasów, garaży oraz pomieszczeń przynależnych.</div>
+            <input type="number" id="powierzchnia" name="powierzchnia" min="0">
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Konstrukcja budynku</label>
+            <span class="info-icon" onclick="toggleInfo('info3')">i</span>
+            <div class="info-text" id="info3">hellllooooooooo.</div>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Niepalna</option>
+                <option value="blizniak">Palna</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Kształt dachu</label>
+            <span class="info-icon" onclick="toggleInfo('info4')">i</span>
+            <div class="info-text" id="info4">Dach płaski to dach, którego kąt nachylenia nie przekracza 12 stopni na większości powierzchni.</div>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Dach skośny</option>
+                <option value="blizniak">Dach płaski</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Pokrycie dachu</label>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="dachowka">Dachówka/Łupek Dachowy</option>
+                <option value="blacho">Blachodachówka/Blacha</option>
+                <option value="strzecha">Strzecha</option>
+                <option value="gont">Gont/Papa</option>
+                <option value="dachRest">Pozostałe</option>
+
+
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Piwnica, garaż oraz pomieszczenia gospodarcze znajdujące się w podziemnej kondygnacji.
+            </label>
+            <span class="info-icon" onclick="toggleInfo('info5')">i</span>
+            <div class="info-text" id="info5">Dotyczy pomieszczeń, których co najmniej połowa wysokości znajduje się poniżej poziomu przylegającego do nich terenu. W przypadku mieszkań lub lokali dotyczy pomieszczeń przynależnych do ubezpieczanej nieruchomości.</div>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Nie </option>
+                <option value="blizniak">Tak</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Nieruchomość jest wyposazona w okna dachowe</label>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+                <option value="Okno-tak">Tak</option>
+                <option value="Okno-nie">Nie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Nieruchomość jest przedmiotem najmu</label>
+            <span class="info-icon" onclick="toggleInfo('info6')">i</span>
+            <div class="info-text" id="info6">hellllooooooooo.</div>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+                <option value="Nie">Nie</option>
+                <option value="Takl">Tak, długoterminowego</option>
+                <option value="Taks">Tak, krótkoterminowego</option>
+            </select>
+        </div>
+        <label>
+            <input type="checkbox" name="security" value="reinforced-doors">
+            <span class="info-icon" onclick="toggleInfo('info7')">i</span>
+            <div class="info-text" id="info7">hellllooooooooo.</div>
+            Drzwi o zwiększonej odporności
+          </label><br>
+
+          <label>
+            <input type="checkbox" name="security" value="alarm-system">
+            <span class="info-icon" onclick="toggleInfo('info8')">i</span>
+            <div class="info-text" id="info8">System antywłamaniowy wywołujący alarm musi być aktywowany.</div>
+            System antywłamaniowy wywołujący alarm
+          </label><br>
+          
+          <label>
+            <input type="checkbox" name="security" value="constant-surveillance">
+            <span class="info-icon" onclick="toggleInfo('info9')">i</span>
+            <div class="info-text" id="info9">Stały dozór wykonywany przez agencję ochrony mienia, prywatnego strażnika, osiedle strzeżone.</div>
+            Stały dozór
+          </label><br><br>
+
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(0)">Wstecz</button>
+                <button onclick="showNextSection(2)">Dalej</button>
+            </div>
+        
+        </div>
+
+        <!-- Sekcja 3: Współwłaściciele nieruchomości -->
+        <div id="section2" class="form-section">
+            <h2>Współwłaściciele nieruchomości:</h2>
+            <div class="form-group">
+                <label for="wspolwlasnosc">Czy nieruchomość ma współwłaścicieli? <span class="info-icon" onclick="toggleInfo('info9')">i</span></label>
+                <select id="wspolwlasnosc" name="wspolwlasnosc">
+                    <option value="nie">Nie</option>
+                    <option value="tak">Tak</option>
+                </select>
+                <div id="info9" class="info-text">Podaj, czy nieruchomość posiada współwłaścicieli.</div>
+            </div>
+            <div id="wspolwlasnosc-details" style="display: none;">
+                <div class="form-group">
+                    <label for="ilosc-wspolwlasnikow">Ile osób jest współwłaścicielami? <span class="info-icon" onclick="toggleInfo('info10')">i</span></label>
+                    <input type="number" id="ilosc-wspolwlasnikow" name="ilosc-wspolwlasnikow" min="1" placeholder="Podaj liczbę współwłaścicieli">
+                    <div id="info10" class="info-text">Podaj liczbę współwłaścicieli nieruchomości.</div>
+                </div>
+                <div id="wspolwlasnosc-details-container"></div>
+            </div>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(1)">Wstecz</button>
+                <button onclick="showNextSection(3)">Dalej</button>
+            </div>
+        </div>
+
+        <div id="section3" class="form-section">
+            <h2>Opcje ubezpieczenia z kwotą:</h2>
+            <p>Wybierz odpowiednią opcję ubezpieczenia i podaj liczbę osób pełnoletnich w gospodarstwie domowym.</p>
+        
+            <div class="options-container">
+                <!-- Opcja 1 -->
+                <div class="option-box" id="option1">
+                    <div class="option-header">
+                        <div class="stars">⭐</div> <!-- 1 gwiazdka -->
+                        <h3>OC W ŻYCIU PRYWATNYM<br>SU 200 000 ZŁ</h3>
+                    </div>
+                    <div class="option-body">
+                        <label for="osoby1">Liczba pełnoletnich osób:</label>
+                        <input type="number" id="osoby1" name="osoby1" min="1" value="1">
+                    </div>
+                    <div class="option-footer">
+                        <button class="select-btn" onclick="selectOption('option1')">Wybierz</button>
+                    </div>
+                </div>
+        
+                <!-- Opcja 2 -->
+                <div class="option-box" id="option2">
+                    <div class="option-header">
+                        <div class="stars">⭐⭐</div> <!-- 2 gwiazdki -->
+                        <h3>OC W ŻYCIU PRYWATNYM<br>SU 500 000 ZŁ</h3>
+                    </div>
+                    <div class="option-body">
+                        <label for="osoby2">Liczba pełnoletnich osób:</label>
+                        <input type="number" id="osoby2" name="osoby2" min="1" value="1">
+                    </div>
+                    <div class="option-footer">
+                        <button class="select-btn" onclick="selectOption('option2')">Wybierz</button>
+                    </div>
+                </div>
+        
+                <!-- Opcja 3 -->
+                <div class="option-box" id="option3">
+                    <div class="option-header">
+                        <div class="stars">⭐⭐⭐</div> <!-- 3 gwiazdki -->
+                        <h3>OC W ŻYCIU PRYWATNYM<br>SU 2 000 000 ZŁ</h3>
+                    </div>
+                    <div class="option-body">
+                        <label for="osoby3">Liczba pełnoletnich osób:</label>
+                        <input type="number" id="osoby3" name="osoby3" min="1" value="1">
+                    </div>
+                    <div class="option-footer">
+                        <button class="select-btn" onclick="selectOption('option3')">Wybierz</button>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(2)">Wstecz</button>
+                <button class="next-btn" onclick="showNextSection(4)">Dalej</button>
+            </div>
+        </div>
+
+<!-- Sekcja 4: Wybór produktów -->
+<div id="section4" class="form-section">
+    <h2>Wybór produktów:</h2>
+    <div class="container">
+        <!-- Produkt 1: Medical Assistance - Podstawowy -->
+        <div class="product">
+            <img src="medical.jpeg" alt="Medical Assistance - Podstawowy">
+            <h3>Medical Assistance - Podstawowy</h3>
+            <p>Pomoc medyczna w razie nagłego zachorowania lub wypadku.</p>
+            <p>Suma ubezpieczenia: 5 000 zł</p>
+            <button onclick="addToCart('Medical Assistance - Podstawowy', 50)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 2: Medical Assistance - Rozszerzony -->
+        <div class="product">
+            <img src="medical.jpeg" alt="Medical Assistance - Rozszerzony">
+            <h3>Medical Assistance - Rozszerzony</h3>
+            <p>Rozszerzona pomoc medyczna w razie nagłego zachorowania lub wypadku.</p>
+            <p>Suma ubezpieczenia: 10 000 zł</p>
+            <button onclick="addToCart('Medical Assistance - Rozszerzony', 100)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 3: Home Assistance -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Home Assistance">
+            <h3>Home Assistance</h3>
+            <p>Pomoc w sytuacjach awaryjnych w domu, takich jak awarie hydrauliczne lub elektryczne.</p>
+            <p>Suma ubezpieczenia: 20 000 zł</p>
+            <button onclick="addToCart('Home Assistance', 150)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 4: SOS Assistance -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="SOS Assistance">
+            <h3>SOS Assistance</h3>
+            <p>Szybka pomoc w nagłych sytuacjach życiowych i podróżnych.</p>
+            <p>Suma ubezpieczenia: 15 000 zł</p>
+            <button onclick="addToCart('SOS Assistance', 120)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 5: Bagaż -->
+        <div class="product">
+            <img src="bagaz.jpeg" alt="Bagaż">
+            <h3>Bagaż</h3>
+            <p>Ubezpieczenie Twojego bagażu podczas podróży.</p>
+            <p>Suma ubezpieczenia: 10 000 zł</p>
+            <button onclick="addToCart('Bagaż', 80)">Dodaj do koszyka</button>
+        </div>
+    </div>
+
+    <!-- Koszyk -->
+    <div class="cart">
+        <h3>Twój koszyk</h3>
+        <ul id="cart-items">
+            <!-- Koszyk będzie tutaj aktualizowany -->
+        </ul>
+    </div>
+
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(3)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(5)">Dalej</button>
+    </div>
+</div>
+
+<!-- Sekcja 5: Cesje - Mienie -->
+<div id="section5" class="form-section">
+    <h2>Cesja - Mienie:</h2>
+    <p>Wypełnij poniższe dane dotyczące firmy, aby kontynuować proces cesji.</p>
+
+    <div class="cesje-container">
+        <!-- Nazwa firmy -->
+        <div class="form-group">
+            <label for="nazwa-firmy">Nazwa firmy:</label>
+            <input type="text" id="nazwa-firmy" name="nazwa-firmy" placeholder="Wprowadź nazwę firmy" required>
+        </div>
+        <br>
+
+        <!-- NIP/REGON/Kraj pochodzenia -->
+        <div class="form-group">
+            <label for="nip-regon">NIP/REGON:</label>
+            <input type="text" id="nip-regon" name="nip-regon" placeholder="Wprowadź NIP lub REGON" required>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="kraj-pochodzenia">Kraj pochodzenia:</label>
+            <input type="text" id="kraj-pochodzenia" name="kraj-pochodzenia" placeholder="Wprowadź kraj pochodzenia firmy" required>
+        </div>
+        <br>
+        <!-- Adres -->
+        <div class="form-group">
+            <label for="adres">Adres stały:</label>
+            <input type="text" id="adres-miejscowosc" name="adres-miejscowosc" placeholder="Miejscowość" required>
+            <input type="text" id="adres-kod" name="adres-kod" placeholder="Kod pocztowy" required>
+            <input type="text" id="adres-ulica" name="adres-ulica" placeholder="Ulica" required>
+            <input type="text" id="adres-numer" name="adres-numer" placeholder="Numer budynku" required>
+            <input type="text" id="adres-lokal" name="adres-lokal" placeholder="Numer lokalu (opcjonalne)">
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(4)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(6)">Dalej</button>
+    </div>
+</div>
+
+<!-- Sekcja 6: Sposób płatności -->
+<div id="section6" class="form-section">
+    <h2>Sposób płatności:</h2>
+    <p>Wybierz odpowiednie opcje dotyczące płatności za składkę ubezpieczeniową.</p>
+
+    <div class="payment-container">
+        <!-- Częstotliwość składki -->
+        <div class="form-group">
+            <label for="czestotliwosc">Częstotliwość składki:</label>
+            <select id="czestotliwosc" name="czestotliwosc" required>
+                <option value="" disabled selected>Wybierz opcję</option>
+                <option value="jednorazowa">Jednorazowa</option>
+                <option value="2raty">2 raty</option>
+                <option value="4raty">4 raty</option>
+            </select>
+        </div>
+
+        <!-- Sposób płatności -->
+        <div class="form-group">
+            <label for="sposob-platnosci">Sposób płatności:</label>
+            <select id="sposob-platnosci" name="sposob-platnosci" required>
+                <option value="" disabled selected>Wybierz sposób płatności</option>
+                <option value="karta">Karta płatnicza</option>
+                <option value="przelew">Przelew bankowy</option>
+                <option value="blik">BLIK</option>
+                <option value="paypal">PayPal</option>
+            </select>
+        </div>
+
+        <!-- Odroczenie składki -->
+        <div class="form-group">
+            <label for="odroczenie">Odroczenie składki:</label>
+            <select id="odroczenie" name="odroczenie" required>
+                <option value="" disabled selected>Wybierz opcję</option>
+                <option value="brak">Brak</option>
+                <option value="7dni">Odroczenie o 7 dni</option>
+                <option value="14dni">Odroczenie o 14 dni</option>
+                <option value="30dni">Odroczenie o 30 dni</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(5)">Wstecz</button>
+        <button class="submit-btn" onclick="submitForm()">Zakończ</button>
+    </div>
+</div>
+
+
+    </div>
+
+    <!-- Stopka -->
+    <footer>
+        <p>&copy; 2024 Twoja firma</p>
+    </footer>
+
+    <script>
+        let currentSection = 0;
+
+        function showNextSection(sectionIndex) {
+            const sections = document.querySelectorAll('.form-section');
+            if (currentSection < sections.length - 1) {
+                sections[currentSection].classList.remove('active');
+                currentSection = sectionIndex || currentSection + 1;
+                sections[currentSection].classList.add('active');
+                sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function showPreviousSection(sectionIndex) {
+            const sections = document.querySelectorAll('.form-section');
+            if (currentSection > 0) {
+                sections[currentSection].classList.remove('active');
+                currentSection = sectionIndex || currentSection - 1;
+                sections[currentSection].classList.add('active');
+                sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Funkcja do przełączania widoczności tekstu informacyjnego
+        function toggleInfo(infoId) {
+            const infoText = document.getElementById(infoId);
+            infoText.classList.toggle('show');
+        }
+
+        // Obsługa współwłaścicieli
+        const wspolwlasnosc = document.getElementById('wspolwlasnosc');
+        wspolwlasnosc.addEventListener('change', function() {
+            const wspolwlasnoscDetails = document.getElementById('wspolwlasnosc-details');
+            wspolwlasnoscDetails.style.display = wspolwlasnosc.value === 'tak' ? 'block' : 'none';
+        });
+
+        // Funkcja do wysyłania formularza
+        function submitForm() {
+            alert("Formularz został wysłany!");
+        }
+        function selectOption(optionId) {
+        // Usuwamy aktywne podświetlenie ze wszystkich opcji
+        const options = document.querySelectorAll('.option-box');
+        options.forEach(option => option.classList.remove('active'));
+
+        // Dodajemy klasę aktywną do wybranej opcji
+        const selectedOption = document.getElementById(optionId);
+        selectedOption.classList.add('active');
+    }
+
+    // Wyświetlanie opcji dla Produktu 1
+function showProductOptions(optionsId) {
+    // Ukryj wszystkie opcje
+    const allOptions = document.querySelectorAll('.options');
+    allOptions.forEach(option => option.style.display = 'none');
+
+    // Pokaż wybrane opcje
+    document.getElementById(optionsId).style.display = 'block';
+}
+
+// Funkcja dodawania produktów do koszyka
+function addToCart(productName, price) {
+    const cartItems = document.getElementById('cart-items');
+
+    // Dodaj produkt do listy w koszyku
+    const li = document.createElement('li');
+    li.textContent = `${productName} - ${price} zł`;
+    cartItems.appendChild(li);
+
+    alert(`${productName} dodano do koszyka!`);
+}
+
+
+    </script>
+</body>
+</html>
