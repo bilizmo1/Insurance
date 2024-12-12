@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubezpieczenia - Strona tytułowa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Resetowanie */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradientowe tło */
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        nav .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+
+        nav a.active {
+            background-color: #FFB800;
+            color: #111;
+            font-weight: bold;
+        }
+
+        nav .date-time {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        nav .date-time span {
+            margin-left: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        /* Główna sekcja */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 40px;
+            margin-top: 80px; /* Dostosowanie, aby nie nachodziło na navbar */
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .hero .info {
+            font-size: 16px;
+            color: #fffbdb;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Ikony wyboru */
+        .icon-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+
+        .icon {
+            background-color: #d4bdbd;
+            color: #333;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+
+        .icon:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background-color: #ffb800;
+            color: #fff;
+        }
+
+        .icon img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 20px;
+        }
+
+        .icon p {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 30px 10px;
+            font-size: 14px;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-content p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-icons a img {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .social-icons a img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .icon {
+                padding: 20px 10px;
+            }
+
+            .icon img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .icon p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="menu">
+            <a href="index.html">O mnie</a>
+            <a href="index.html">Portfolio</a>
+            <a href="index.html" class="active">Ubezpieczenia</a>
+            <a href="index.html">Kontakt</a>
+        </div>
+        <div class="date-time">
+            <span id="date"></span>
+            <span id="time"></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Wybierz rodzaj ubezpieczenia</h1>
+        <p>Zadbaj o bezpieczeństwo swojego domu i bliskich. Wybierz kategorię i rozpocznij formularz.</p>
+        <div class="info">Wybierz odpowiednie ubezpieczenie, aby dopasować ofertę do swoich potrzeb.</div>
+
+        <!-- Ikony wyboru -->
+        <div class="icon-container">
+            <div class="icon" onclick="loadForm('formularzDom.html')">
+                <img src="dom.png" alt="Dom">
+                <p>Dom</p>
+            </div>
+            <div class="icon" onclick="loadForm('formularzFlat.html')">
+                <img src="residential.png" alt="Mieszkanie">
+                <p>Mieszkanie</p>
+            </div>
+            <div class="icon" onclick="loadForm('formularzFlat.html')">
+                <img src="domletnisko.png" alt="Dom letniskowy">
+                <p>Dom Letniskowy</p>
+            </div>
+            <div class="icon" onclick="loadForm('formularzFlat.html')">
+                <img src="bulding.png" alt="Dom budowany">
+                <p>Dom Budowany</p>
+            </div>
+            <div class="icon" onclick="loadForm('formularzHealth.html')">
+                <img src="healthcare.png" alt="Zdrowie">
+                <p>Ubezpieczenie Zdrowotne</p>
+            </div>
+            <div class="icon" onclick="loadForm('formularzCar.html')">
+                <img src="car.png" alt="Samochód">
+                <p>Ubezpieczenie Samochodu</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Twoja firma</p>
+            <div class="social-icons">
+                <a href="#"><img src="facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="linkedin.png" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function loadForm(url) {
+            window.location.href = url;
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString("pl-PL", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+            const time = now.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+            document.getElementById("date").textContent = date;
+            document.getElementById("time").textContent = time;
+        }
+
+        // Aktualizowanie daty i godziny co sekundę
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+</html>

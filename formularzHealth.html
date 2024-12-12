@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz Zdrowotny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Resetowanie */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+       /* Navbar */
+       nav {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        nav .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+
+        nav a.active {
+            background-color: #FFB800;
+            color: #111;
+            font-weight: bold;
+        }
+
+        nav .date-time {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        nav .date-time span {
+            margin-left: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .form-container {
+            background: #fff;
+            color: #333;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin-top: 100px;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #6a11cb;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #6a11cb;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2575fc;
+            box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .button-group button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-3px);
+        }
+
+        .button-group .prev-btn {
+            background: #ccc;
+            color: #333;
+        }
+
+        .button-group .prev-btn:hover {
+            background: #bbb;
+        }
+
+        footer {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 30px 10px;
+            font-size: 14px;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-content p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-icons a img {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .social-icons a img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            nav .menu {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="menu">
+            <a href="../index.html">O mnie</a>
+            <a href="../index.html">Portfolio</a>
+            <a href="../index.html">Ubezpieczenia</a>
+            <a href="../index.html">Kontakt</a>
+        </div>
+        <div class="date-time">
+            <span id="date"></span>
+            <span id="time"></span>
+        </div>
+    </nav>
+    <main>
+    <!-- Formularz -->
+    <div class="form-container">
+        <h1>Ubezpieczenie Zdrowotne</h1>
+
+        <!-- Sekcja 1: Dane klienta -->
+        <div id="section0" class="form-section active">
+            <h2>Dane klienta:</h2>
+            <div class="form-group">
+                <label for="imie">Imię:</label>
+                <input type="text" id="imie" name="imie" placeholder="Wprowadź swoje imię">
+            </div>
+            <div class="form-group">
+                <label for="nazwisko">Nazwisko:</label>
+                <input type="text" id="nazwisko" name="nazwisko" placeholder="Wprowadź swoje nazwisko">
+            </div>
+            <div class="form-group">
+                <label for="pesel">PESEL:</label>
+                <input type="text" id="pesel" name="pesel" placeholder="Wprowadź swój PESEL">
+            </div>
+            <div class="form-group">
+                <label for="email">Adres e-mail:</label>
+                <input type="email" id="email" name="email" placeholder="Wprowadź adres e-mail">
+            </div>
+            <div class="button-group">
+                <button onclick="showNextSection(1)">Dalej</button>
+            </div>
+        </div>
+
+        <!-- Sekcja 2: Wybór ubezpieczenia -->
+        <div id="section1" class="form-section">
+            <h2>Wybór zakresu ubezpieczenia:</h2>
+            <div class="form-group">
+                <label for="pakiet">Pakiet ubezpieczenia:</label>
+                <select id="pakiet" name="pakiet">
+                    <option value="podstawowy">Podstawowy</option>
+                    <option value="standardowy">Standardowy</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="leczenie">Rodzaj ochrony:</label>
+                <select id="leczenie" name="leczenie">
+                    <option value="ambulatoryjne">Leczenie ambulatoryjne</option>
+                    <option value="szpitalne">Leczenie szpitalne</option>
+                    <option value="kompleksowe">Kompleksowe</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button onclick="showPreviousSection(0)">Wstecz</button>
+                <button onclick="showNextSection(2)">Dalej</button>
+            </div>
+        </div>
+
+        <div id="section2" class="form-section">
+            <h2>Cesja-mienie:</h2>
+        
+            <!-- Pytanie 1 -->
+            <div class="form-group">
+                <label for="nazwa-firmy">Jaka jest nazwa firmy?</label>
+                <input type="text" id="nazwa-firmy" name="nazwa-firmy" placeholder="Podaj nazwę firmy">
+            </div>
+        
+            <!-- Pytanie 2 -->
+            <div class="form-group">
+                <label for="nip">Jaki jest NIP firmy?</label>
+                <input type="text" id="nip" name="nip" placeholder="Podaj NIP">
+            </div>
+        
+            <!-- Pytanie 3 -->
+            <div class="form-group">
+                <label for="regon">Jaki jest REGON firmy?</label>
+                <input type="text" id="regon" name="regon" placeholder="Podaj REGON">
+            </div>
+        
+            <!-- Pytanie 4 -->
+            <div class="form-group">
+                <label for="kraj-pochodzenia">Jaki jest kraj pochodzenia firmy?</label>
+                <input type="text" id="kraj-pochodzenia" name="kraj-pochodzenia" placeholder="Podaj kraj pochodzenia">
+            </div>
+        
+            <!-- Pytanie 5 -->
+            <div class="form-group">
+                <label for="adres-staly-kod-miejscowosc">Jaki jest adres stały firmy (kod pocztowy i miejscowość)?</label>
+                <input type="text" id="adres-staly-kod-miejscowosc" name="adres-staly-kod-miejscowosc" placeholder="Podaj kod pocztowy i miejscowość, np. 04-439 Warszawa">
+            </div>
+        
+            <!-- Pytanie 6 -->
+            <div class="form-group">
+                <label for="adres-staly-ulica-numer">Jaka jest ulica i numer adresu stałego firmy?</label>
+                <input type="text" id="adres-staly-ulica-numer" name="adres-staly-ulica-numer" placeholder="Podaj ulicę i numer, np. Polna 4">
+            </div>
+        
+            <!-- Pytanie 7 -->
+            <div class="form-group">
+                <label for="adres-staly-lokal">Jaki jest lokal adresu stałego firmy?</label>
+                <input type="text" id="adres-staly-lokal" name="adres-staly-lokal" placeholder="Podaj lokal, np. 10">
+            </div>
+        
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(1)">Wstecz</button>
+                <button class="next-btn" onclick="showNextSection(3)">Dalej</button>
+            </div>
+        </div>
+        
+        <div id="section3" class="form-section">
+            <h2>Sposób płatności:</h2>
+            <div class="form-group">
+                <label for="czestotliwosc-skladki">Częstotliwość składki</label>
+                <select id="czestotliwosc-skladki" name="czestotliwosc-skladki">
+                    <option value="jednorazowa">Jednorazowa</option>
+                    <option value="2raty">2 raty</option>
+                    <option value="4raty">4 raty</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sposob-platnosci">Sposób płatności</label>
+                <select id="sposob-platnosci" name="sposob-platnosci">
+                    <option value="przelew">Przelew bankowy</option>
+                    <option value="karta">Karta płatnicza</option>
+                    <option value="blik">BLIK</option>
+                    <option value="gotowka">Gotówka</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="odroczenie-skladki">Odroczenie składki</label>
+                <select id="odroczenie-skladki" name="odroczenie-skladki">
+                    <option value="brak">Brak odroczenia</option>
+                    <option value="7dni">Odroczenie o 7 dni</option>
+                    <option value="14dni">Odroczenie o 14 dni</option>
+                    <option value="30dni">Odroczenie o 30 dni</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(2)">Wstecz</button>
+                <button class="next-btn" onclick="showNextSection(4)">Dalej</button>
+            </div>
+        </div>
+        
+        <div id="section4" class="form-section">
+            <h2>Daty ubezpieczenia:</h2>
+            <div class="form-group">
+                <label for="data-od">Data rozpoczęcia ubezpieczenia</label>
+                <input type="date" id="data-od" name="data-od">
+            </div>
+            <div class="form-group">
+                <label for="data-do">Data zakończenia ubezpieczenia</label>
+                <input type="date" id="data-do" name="data-do">
+            </div>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(3)">Wstecz</button>
+                <button class="next-btn" onclick="showNextSection(5)">Dalej</button>
+            </div>
+        </div>
+        
+
+        <!-- Sekcja 3: Podsumowanie -->
+        <div id="section5" class="form-section">
+            <h2>Podsumowanie:</h2>
+            <p>Proszę sprawdzić wprowadzone dane przed wysłaniem formularza.</p>
+            <div class="button-group">
+                <button onclick="showPreviousSection(4)">Wstecz</button>
+                <button onclick="submitForm()">Wyślij</button>
+            </div>
+        </div>
+    </div>
+    </main>
+
+   
+
+    <!-- Stopka -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Twoja firma</p>
+            <div class="social-icons">
+                <a href="#"><img src="facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="linkedin.png" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSection = 0;
+
+        function showNextSection(sectionIndex) {
+            const sections = document.querySelectorAll('.form-section');
+            if (currentSection < sections.length - 1) {
+                sections[currentSection].classList.remove('active');
+                currentSection = sectionIndex || currentSection + 1;
+                sections[currentSection].classList.add('active');
+                sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function showPreviousSection(sectionIndex) {
+            const sections = document.querySelectorAll('.form-section');
+            if (currentSection > 0) {
+                sections[currentSection].classList.remove('active');
+                currentSection = sectionIndex || currentSection - 1;
+                sections[currentSection].classList.add('active');
+                sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Funkcja do wysyłania formularza
+        function submitForm() {
+            alert("Formularz został wysłany!");
+        }
+       
+
+
+function updateDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString("pl-PL", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+            const time = now.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+            document.getElementById("date").textContent = date;
+            document.getElementById("time").textContent = time;
+        }
+
+        // Aktualizowanie daty i godziny co sekundę
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz OC Mieszkanie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Resetowanie */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+         /* Navbar */
+         nav {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        nav .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+
+        nav a.active {
+            background-color: #FFB800;
+            color: #111;
+            font-weight: bold;
+        }
+
+        nav .date-time {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        nav .date-time span {
+            margin-left: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .form-container {
+            background: #fff;
+            color: #333;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin-top: 100px;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #6a11cb;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #6a11cb;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2575fc;
+            box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .button-group button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-3px);
+        }
+
+        .button-group .prev-btn {
+            background: #ccc;
+            color: #333;
+        }
+
+        .button-group .prev-btn:hover {
+            background: #bbb;
+        }
+        .option-box {
+        border: 2px solid transparent;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background: #f9f9f9;
+        transition: all 0.3s ease;
+    }
+
+    .option-box.active {
+        border-color: #2575fc;
+        background: #e8f0ff;
+        box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        transform: translateY(-3px);
+    }
+
+    .option-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .option-header h3 {
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .stars {
+        font-size: 1.5rem;
+        color: gold;
+    }
+
+    .select-btn {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .select-btn:hover {
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        transform: translateY(-3px);
+    }
+    .container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.clause-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .clause-item {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .clause-item label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: block;
+            color: #333;
+        }
+
+        .clause-price {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .toggle-details {
+            background-color: #2575fc;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-block;
+            width: 150px; /* Stała szerokość */
+            text-align: center; /* Wyrównanie tekstu */
+        }
+
+        .toggle-details:hover {
+            background-color: #6a11cb;
+        }
+
+        .clause-details {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            display: none; /* Ukrywanie szczegółów */
+        }
+
+        .clause-details h4 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .clause-details p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+  
+
+.cart {
+    margin-top: 20px;
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.cart ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cart ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+
+.product {
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.product h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.product p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.product button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.product button:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    transform: translateY(-3px);
+}
+
+.cart {
+    margin-top: 20px;
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.cart ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cart ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+/* Footer */
+
+footer {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 30px 10px;
+            font-size: 14px;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-content p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-icons a img {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .social-icons a img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .icon {
+                padding: 20px 10px;
+            }
+
+            .icon img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .icon p {
+                font-size: 16px;
+            }
+        }
+
+        /* Animacje */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #888;
+            display: none;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .info-icon {
+            cursor: pointer;
+            color: #2575fc;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .info-text.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="menu">
+            <a href="index.html">O mnie</a>
+            <a href="index.html">Portfolio</a>
+            <a href="index.html">Ubezpieczenia</a>
+            <a href="index.html">Kontakt</a>
+        </div>
+        <div class="date-time">
+            <span id="date"></span>
+            <span id="time"></span>
+        </div>
+    </nav>
+
+    <!-- Formularz -->
+    <main>
+    <div class="form-container">
+        <h1>Formularz OC</h1>
+
+        <!-- Sekcja 1: Dane klienta -->
+        <div id="section0" class="form-section active">
+            <h2>Dane klienta:</h2>
+            <div class="form-group">
+                <label for="imie">Imię <span class="info-icon" onclick="toggleInfo('info1')">i</span></label>
+                <input type="text" id="imie" name="imie" placeholder="Jan">
+                <div id="info1" class="info-text">Podaj swoje pełne imię.</div>
+            </div>
+            <div class="form-group">
+                <label for="nazwisko">Nazwisko <span class="info-icon" onclick="toggleInfo('info2')">i</span></label>
+                <input type="text" id="nazwisko" name="nazwisko" placeholder="Kowalski">
+                <div id="info2" class="info-text">Podaj swoje pełne nazwisko.</div>
+            </div>
+            <div class="form-group">
+                <label for="nazwiskoRodowe">Nazwisko rodowe </label>
+                <input type="text" id="nazwisko" name="nazwisko" placeholder="Kowalski">
+            </div>
+            <div class="form-group">
+                <label for="email">Adres e-mail <span class="info-icon" onclick="toggleInfo('info3')">i</span></label>
+                <input type="email" id="email" name="email" placeholder="jan.kowalski@example.com">
+                <div id="info3" class="info-text">Podaj swój adres e-mail, na który wyślemy potwierdzenie.</div>
+            </div>
+            <div class="form-group">
+                <label for="telefon">Numer telefonu <span class="info-icon" onclick="toggleInfo('info4')">i</span></label>
+                <input type="tel" id="telefon" name="telefon" placeholder="+48 123 456 789">
+                <div id="info4" class="info-text">Podaj swój numer telefonu, abyśmy mogli skontaktować się w razie potrzeby.</div>
+            </div>
+            <div class="form-group">
+                <label for="pesel">PESEL <span class="info-icon" onclick="toggleInfo('info5')">i</span></label>
+                <input type="text" id="pesel" name="pesel" placeholder="12345678901">
+                <div id="info5" class="info-text">Podaj swój numer PESEL.</div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="ubezpieczajacy" value="ubezpieczajacy">
+                    Klient jest ubezpieczającym 
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="ubezpieczony" value="ubezpieczony">
+                    Klient jest ubezpieczonym
+                </label>
+            </div>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection()">Wstecz</button>
+                <button onclick="showNextSection(1)">Dalej</button>
+            </div>
+        </div>
+
+        <!-- Sekcja 2: Dane adresowe i informacje o nieruchomości -->
+        <div id="section1" class="form-section">
+            <h2>Dane adresowe i informacje o nieruchomości:</h2>
+            <div class="form-group">
+                <label for="adres">Adres <span class="info-icon" onclick="toggleInfo('info6')">i</span></label>
+                <input type="text" id="adres" name="adres" placeholder="ul. Polna 4, 04-439 Warszawa">
+                <div id="info6" class="info-text">Podaj pełny adres, w tym ulicę i kod pocztowy.</div>
+            </div>
+            <div class="form-group">
+                <label for="wojewodztwo">Województwo <span class="info-icon" onclick="toggleInfo('info7')">i</span></label>
+                <input type="text" id="wojewodztwo" name="wojewodztwo" placeholder="Mazowieckie">
+                <div id="info7" class="info-text">Podaj województwo, w którym znajduje się nieruchomość.</div>
+            </div>
+            <div class="form-group">
+                <label for="powiat">Powiat <span class="info-icon" onclick="toggleInfo('info8')">i</span></label>
+                <input type="text" id="powiat" name="powiat" placeholder="Warszawa">
+                <div id="info8" class="info-text">Podaj powiat, w którym znajduje się nieruchomość.</div>
+            </div>
+            <div class="form-group">
+                <label for="gmina">Gmina <span class="info-icon" onclick="toggleInfo('info9')">i</span></label>
+                <input type="text" id="gmina" name="gmina" placeholder="Warszawa">
+                <div id="info9" class="info-text">Podaj powiat, w którym znajduje się nieruchomość.</div>
+            </div>
+            <div class="form-group">
+            <label for="dzialalnosc">W nieruchomości jest wykonywana działalność gospodarcza<span class="info-icon" onclick="toggleInfo('info20')">i</span></label>
+            <select id="dzialalnosc" name="dzialalnosc">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="nie">Nie</option>
+                <option value="biurowa">Tak, działalność o charakterze biurowym</option>
+                <option value="pozostale">Tak, pozostałe typy działalności</option>
+            </select>
+            <div id="info20" class="info-text">Działalność o charakterze biurowym to jednoosobowa działalność gospodarcza wykonywana osobiście w miejscu zamieszkania, polegająca na pracy umysłowej, niewymagającej specjalistycznych lub specjalnie dedykowanych do tej działalności narzędzi i wyposażenia.
+                <br>
+                Wyłączone jest przyjmowanie klientów w ubezpieczanej nieruchomości. Łączne spełnienie powyższych warunków nie stanowi (ze względu na swoją specyfikę) ubezpieczenia majątku wykorzystywanego do prowadzenia działalności gospodarczej i zawodowej.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="typ-lokalu">Typ lokalu</label>
+            <select id="typ-lokalu" name="typ-lokalu">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">jednokondygnacyjny</option>
+                <option value="blizniak">wielokondygnacyjny</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Położenie">Położenie nieruchomości
+            </label>
+            <span class="info-icon" onclick="toggleInfo('info30')">i</span>
+            <select id="Położenie" name="Położenie">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="parter"> Parter</option>
+                <option value="pierwsze piętro">Piętro pierwsze</option>
+                <option value="piętro pośrednie">Piętro pośrednie</option>
+                <option value="ostatnie">Ostatnie Piętro</option>
+            </select>
+            <div class="info-text" id="info30">Parter – najniższa kondygnacja nadziemna budynku.<br>
+                Pierwsze piętro – kondygnacja bezpośrednio nad parterem (w przypadku budynków 1-piętrowych jest to jednocześnie ostatnie piętro).<br>
+                Piętro pośrednie – dowolne piętro znajdujące się powyżej pierwszego piętra i jednocześnie poniżej ostatniego piętra.<br>
+                Ostatnie piętro – ostatnia kondygnacja w budynku przystosowana do użytkowania (zamieszkania lub prowadzenia działalności gospodarczej).<br>
+                W przypadku mieszkań/lokali wielopoziomowych podaj położenie odpowiadające najniższemu poziomowi mieszkania/lokalu.
+             </div>
+        </div>
+        <div class="form-group">
+            <label for="liczba-pieter">Liczba pięter w budynku</label>
+            <span class="info-icon" onclick="toggleInfo('info10')">i</span>
+            <input type="number" id="liczba-pieter" name="liczba-pieter" min="0">
+            <div class="info-text" id="info10">Należy uwzględnić tylko kondygnacje nadziemne i przystosowane do użytkowania (np. zamieszkania lub prowadzenia działalności gospodarczej).
+                Parteru nie należy uwzględniać w liczbie pięter.<br>
+                Dla budynków parterowych należy wpisać 0.
+                W przypadku mieszkania/lokalu należy uwzględnić maksymalną liczbę pięter w pionie, w którym znajduje się nieruchomość.<br>
+                Jeśli w budynku występują mieszkania/lokale wielopoziomowe, w liczbie pięter należy uwzględnić wszystkie poziomy mieszkań/lokali (bez wliczania parteru). 
+             </div>
+        </div>
+        <div class="form-group">
+            <label for="powierzchnia">Powierzchnia użytkowa (m²)</label>
+            <span class="info-icon" onclick="toggleInfo('info11')">i</span>
+            <div class="info-text" id="info11">Powierzchnia użytkowa to suma powierzchni wszystkich pomieszczeń służących potrzebom mieszkalnym i gospodarczym mieszkańców, w szczególności pokoi, kuchni, spiżarni, przedpokoi, holi, korytarzy i łazienek.<br>
+                Do powierzchni użytkowej nie wlicza się powierzchni balkonów, loggii, tarasów, garaży oraz pomieszczeń przynależnych.</div>
+            <input type="number" id="powierzchnia" name="powierzchnia" min="0">
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Konstrukcja budynku</label>
+            <span class="info-icon" onclick="toggleInfo('info12')">i</span>
+            <div class="info-text" id="info12">Budynek o konstrukcji palnej - budynek, w którym elementy konstrukcji nośnej(ściany, słupy, podciągi, ramy, stropy)
+                wykonane są z materiałów łatwoplanych takich jak: drewno, materiały drzewne(np. płyta OSB), płyta warstwowa wypełniona styropianem lub poliuretanem, mur pruski.
+                <br></br>
+                Do budynków o konstrukcji palnej zalicza się min. bydynki z bali, budynki o konstrukcji szkieletowej drewnianej wykonane w tzw. technologii skandynawskiej lub kanadyjskiej
+
+            </div>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Niepalna</option>
+                <option value="blizniak">Palna</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="numer-piętra">Numer piętra</label>
+            <select id="numer-piętra" name="numer-piętra">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Dach skośny</option>
+                <option value="blizniak">Dach płaski</option>
+            </select>
+        </div>
+      
+        
+        <div class="form-group">
+            <label for="typ-zabudowy">Piwnica, garaż oraz pomieszczenia gospodarcze znajdujące się w podziemnej kondygnacji.
+            </label>
+            <span class="info-icon" onclick="toggleInfo('info14')">i</span>
+            <div class="info-text" id="info14">Dotyczy pomieszczeń, których co najmniej połowa wysokości znajduje się poniżej poziomu przylegającego do nich terenu. W przypadku mieszkań lub lokali dotyczy pomieszczeń przynależnych do ubezpieczanej nieruchomości.</div>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+
+                <option value="wolnostojacy">Nie </option>
+                <option value="blizniak">Tak</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Nieruchomość jest wyposazona w okna dachowe</label>
+            <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+                <option value="Okno-tak">Tak</option>
+                <option value="Okno-nie">Nie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Nieruchomość jest przedmiotem najmu</label>
+            <span class="info-icon" onclick="toggleInfo('info15')">i</span>
+            <div class="info-text" id="info15">Jeżeli nieruchomość jest wynajmowana na okresy nie dłuższe niż 30 dni, należy wybrać najem krótkoterminowy.
+                Należy zweryfikować możliwość przedstawienia oferty ubezpieczenia zgodnie z wytycznymi dotyczącymi zasad postępowania przy zawieraniu umów ubezpieczenia w systemie sprzedażowym w kontekście najmu oraz podnajmu.
+            </div>
+                <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+                <option value="Nie">Nie</option>
+                <option value="Takl">Tak, długoterminowego</option>
+                <option value="Taks">Tak, krótkoterminowego</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="typ-zabudowy">Ubezpieczony to</label>
+            <span class="info-icon" onclick="toggleInfo('info25')">i</span>
+            <div class="info-text" id="info25">
+            </div>
+                <select id="typ-zabudowy" name="typ-zabudowy">
+                <option value="" selected disabled>Wybierz</option> <!-- Opcja domyślna -->
+                <option value="Wynajmujący">Wynajmujący</option>
+                <option value="Najemca">Najemca</option>
+            </select>
+        </div>
+        <label>
+            <input type="checkbox" name="security" value="reinforced-doors">
+            <span class="info-icon" onclick="toggleInfo('info16')">i</span>
+            <div class="info-text" id="info16"></div>
+            Drzwi o zwiększonej odporności
+          </label><br>
+
+          <label>
+            <input type="checkbox" name="security" value="alarm-system">
+            <span class="info-icon" onclick="toggleInfo('info17')">i</span>
+            <div class="info-text" id="info17">System antywłamaniowy wywołujący alarm musi być aktywowany.</div>
+            System antywłamaniowy wywołujący alarm
+          </label><br>
+          
+          <label>
+            <input type="checkbox" name="security" value="constant-surveillance">
+            <span class="info-icon" onclick="toggleInfo('info18')">i</span>
+            <div class="info-text" id="info18">Stały dozór wykonywany przez agencję ochrony mienia, prywatnego strażnika, osiedle strzeżone.</div>
+            Stały dozór
+          </label><br><br>
+
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(0)">Wstecz</button>
+                <button onclick="showNextSection(2)">Dalej</button>
+            </div>
+        
+        </div>
+
+        <!-- Sekcja 3: Współwłaściciele nieruchomości -->
+        <div id="section2" class="form-section">
+            <h2>Współwłaściciele nieruchomości:</h2>
+            <div class="form-group">
+                <label for="wspolwlasnosc">Czy nieruchomość ma współwłaścicieli? <span class="info-icon" onclick="toggleInfo('info9')">i</span></label>
+                <select id="wspolwlasnosc" name="wspolwlasnosc" onchange="toggleWspolwlasnoscDetails()">
+                    <option value="nie">Nie</option>
+                    <option value="tak">Tak</option>
+                </select>
+                <div id="info9" class="info-text">Podaj, czy nieruchomość posiada współwłaścicieli.</div>
+            </div>
+            <div id="wspolwlasnosc-details" style="display: none;">
+                <div class="form-group">
+                    <label for="ilosc-wspolwlasnikow">Ile osób jest współwłaścicielami? <span class="info-icon" onclick="toggleInfo('info10')">i</span></label>
+                    <input type="number" id="ilosc-wspolwlasnikow" name="ilosc-wspolwlasnikow" min="1" placeholder="Podaj liczbę współwłaścicieli" onchange="generateWspolwlascicieleFields()">
+                    <div id="info10" class="info-text">Podaj liczbę współwłaścicieli nieruchomości.</div>
+                </div>
+                <div id="wspolwlasnosc-details-container"></div>
+            </div>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(1)">Wstecz</button>
+                <button onclick="showNextSection(3)">Dalej</button>
+            </div>
+        </div>
+        <div id="section3" class="form-section">
+            <h2>Opcje ubezpieczenia z kwotą:</h2>
+            <p>Wybierz odpowiednią opcję ubezpieczenia i podaj liczbę osób pełnoletnich w gospodarstwie domowym.</p>
+        
+            <div class="options-container">
+                <!-- Opcja 1 -->
+                <div class="option-box" id="option1">
+                    <div class="option-header">
+                        <div class="stars">⭐</div> <!-- 1 gwiazdka -->
+                        <h3>OC W ŻYCIU PRYWATNYM<br>SU 200 000 ZŁ</h3>
+                    </div>
+                    <div class="option-body">
+                        <label for="osoby1">Liczba pełnoletnich osób:</label>
+                        <input type="number" id="osoby1" name="osoby1" min="1" value="1">
+                    </div>
+                    <div class="option-footer">
+                        <button class="select-btn" onclick="selectOption('option1')">Wybierz</button>
+                    </div>
+                </div>
+        
+                <!-- Opcja 2 -->
+                <div class="option-box" id="option2">
+                    <div class="option-header">
+                        <div class="stars">⭐⭐</div> <!-- 2 gwiazdki -->
+                        <h3>OC W ŻYCIU PRYWATNYM<br>SU 500 000 ZŁ</h3>
+                    </div>
+                    <div class="option-body">
+                        <label for="osoby2">Liczba pełnoletnich osób:</label>
+                        <input type="number" id="osoby2" name="osoby2" min="1" value="1">
+                    </div>
+                    <div class="option-footer">
+                        <button class="select-btn" onclick="selectOption('option2')">Wybierz</button>
+                    </div>
+                </div>
+        
+                <!-- Opcja 3 -->
+                <div class="option-box" id="option3">
+                    <div class="option-header">
+                        <div class="stars">⭐⭐⭐</div> <!-- 3 gwiazdki -->
+                        <h3>OC W ŻYCIU PRYWATNYM<br>SU 2 000 000 ZŁ</h3>
+                    </div>
+                    <div class="option-body">
+                        <label for="osoby3">Liczba pełnoletnich osób:</label>
+                        <input type="number" id="osoby3" name="osoby3" min="1" value="1">
+                    </div>
+                    <div class="option-footer">
+                        <button class="select-btn" onclick="selectOption('option3')">Wybierz</button>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(2)">Wstecz</button>
+                <button class="next-btn" onclick="showNextSection(4)">Dalej</button>
+            </div>
+        </div>
+
+<!-- Sekcja 4: Wybór produktów -->
+<div id="section4" class="form-section">
+    <h2>Wybór produktów:</h2>
+    <div class="container">
+        <!-- Produkt 1: Medical Assistance - Podstawowy -->
+        <div class="product">
+            <img src="medicalAsistance.png" alt="Medical Assistance - Podstawowy">
+            <h3>Medical Assistance - Podstawowy</h3>
+            <p>Pomoc medyczna w razie nagłego zachorowania lub wypadku.</p>
+            <p>Suma ubezpieczenia: 5 000 zł</p>
+            <button onclick="addToCart('Medical Assistance - Podstawowy', 50)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 2: Medical Assistance - Rozszerzony -->
+        <div class="product">
+            <img src="medicalAsistance.png" alt="Medical Assistance - Rozszerzony">
+            <h3>Medical Assistance - Rozszerzony</h3>
+            <p>Rozszerzona pomoc medyczna w razie nagłego zachorowania lub wypadku.</p>
+            <p>Suma ubezpieczenia: 10 000 zł</p>
+            <button onclick="addToCart('Medical Assistance - Rozszerzony', 100)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 3: Home Assistance -->
+        <div class="product">
+            <img src="home.png" alt="Home Assistance">
+            <h3>Home Assistance</h3>
+            <p>Pomoc w sytuacjach awaryjnych w domu, takich jak awarie hydrauliczne lub elektryczne.</p>
+            <p>Suma ubezpieczenia: 5 000 zł</p>
+            <button onclick="addToCart('Home Assistance', 150)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 4: SOS Assistance -->
+        <div class="product">
+            <img src="SOS.png" alt="SOS Assistance">
+            <h3>SOS Assistance</h3>
+            <p>Szybka pomoc w nagłych sytuacjach życiowych i podróżnych.</p>
+            <p>Suma ubezpieczenia: 15 000 zł</p>
+            <button onclick="addToCart('SOS Assistance', 120)">Dodaj do koszyka</button>
+        </div>
+        
+        <!-- Produkt 5: Bagaż -->
+        <div class="product">
+            <img src="luggage.png" alt="Bagaż">
+            <h3>Bagaż</h3>
+            <p>Ubezpieczenie Twojego bagażu podczas podróży.</p>
+            <p>Suma ubezpieczenia: 10 000 zł</p>
+            <button onclick="addToCart('Bagaż', 80)">Dodaj do koszyka</button>
+        </div>
+    </div>
+
+    <!-- Koszyk -->
+    <div class="cart">
+        <h3>Twój koszyk</h3>
+        <ul id="cart-items">
+            <!-- Koszyk będzie tutaj aktualizowany -->
+        </ul>
+    </div>
+
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(3)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(5)">Dalej</button>
+    </div>
+</div>
+<div id="section5" class="form-section">
+    <h2>Klauzule Produktowe</h2>
+    <p>Wybierz odpowiednie klauzule, które chcesz dodać do swojej polisy ubezpieczeniowej:</p>
+    <div class="search-bar">
+        <input type="text" placeholder="Wyszukaj klauzulę" id="search-bar">
+    </div>
+    <ul class="clause-list">
+        <!-- Ponizej znajduje sie klauzula K012-->
+        <li class="clause-item">
+            <input type="checkbox" id="clause-1">
+            <label for="clause-1">
+                <strong>K012 Zniesienie obowiązku dostarczania dowodów zakupu rzeczy osobistych o wartości jednostkowej powyżej 10 000 zł</strong>
+                <br>
+                <span class="clause-price">Składka: 10 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-1')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-1">
+                Szczegóły klauzuli K012: 
+            <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+            <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+            <br>
+            <h4>Jakie zmiany w umowie wprowadzamy klauzulą?</h4>
+            <p>W umowie Ubezpieczenia Mienia od Kradzieży zawartej z zastosowaniem klauzuli nie wymagamy dostarczenia dowodów zakupu rzeczy osobistych o jednostkowej wartości powyżej 10 000 zł (z wyłączeniem gotówki).</p>
+            <p>Zastosowanie klauzuli jest możliwe za opłatą dodatowej składki.</p>
+            <br>
+            <h4>Które postanowienia OWU nie mają zastosowania?</h4>
+            <p>Do umowy ubezpieczenia zawartej na podstawie tej klauzuli nie mają zastosowania postanowienia OWU ()25 ust. 1 pkt 2.</p>
+            <br>
+            <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+            <p>W zakresie nieregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+            </div>
+        </li>
+        <li class="clause-item">
+            <input type="checkbox" id="clause-2">
+            <label for="clause-2">
+                <strong>K014 Ubezpieczenie części wspólnych łącznie z mieszkaniem</strong>
+                <span class="clause-price">Składka: 6 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-2')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-2">
+                <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+                <br>
+                <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                <p>W umowie Ubezpieczenia Mienia od Ognia i Zdarzeń Losowych oraz Mienia od Kradzieży zawartej z zastosowaniem klauzuli, wprowadzamy możliwość ubezpieczenia udziału w częściach wspólnych budynku należących do właściciela ubezpieczonego mieszkania. Ubezpueczony dolicza warość udziału w częściach wspólnych budynku do wartości swojego mieszkania.</p>
+                <p>Zastosowanie klauzuli jest możliwe za opłatą dodatkowej składki.</p>
+                <br>
+                <h4>W jakich sytuacjach klauzula nie ma zastosowania?</h4>
+                <p>Klauzuli nie stosuje się gdy ubezpieczony jest właścicielem całego budynku a ubezpiecza poszczególne lokale odrębnie jako mieszkania, a nie całość budynku.</p>
+                <br>
+                <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+                <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+            </div>
+        </li>
+        <li class="clause-item">
+            <input type="checkbox" id="clause-3">
+            <label for="clause-3">
+                <strong>K020 Prewencyjna suma ubezpieczenia nieruchomości</strong>
+                <span class="clause-price">Składka: 20 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-3')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-3">
+                Szczegóły klauzuli K020:
+                <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+                <br>
+                <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                <p>W umowie Ubezpieczenia Mienia od Ognia i Zdarzeń Losowych zawartej z zastosowaniem klauzuli zwiększamy o 15% sumę ubezpieczenia domu lub mieszkania w przypadkach wskazanych w dalszeh części klauzli (prewencja SU).</p>
+                <p>Zastosowanie klauzuli jest możliwe za opłatą dodatkowej składki.</p>
+                <br>
+                <h4>W jakich sytuacjach ma zastosowanie prewencyjna SU?</h4>
+                <p>Prewencyjną sumę ubezpieczenia stosuje się w szkodach polegających na całkowitym zniszczeniu domu lub mieszkania, gdy wartość odtworzeniową domu lub wartość rynkowa mieszkania w chwili powstania szkody jest wyższa niż ta sama wartość ustalona w dniu zawarcia umowy ubezpieczenia.</p>
+                <p>Prewencyjna suma ubezpieczenia jest stosowana jednorazowo w okresie ubezpieczenia.</p>
+                <br>
+                <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+                <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>  
+            </div>
+        </li>
+        <li class="clause-item">
+            <input type="checkbox" id="clause-4">
+            <label for="clause-4">
+                <strong>K022 Podwyższenie limitu odpowiedzialności za szkody wyrządzone przez zwierzęta inne niż domowe</strong>
+                <span class="clause-price">Składka: 30 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-4')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-4">
+                Szczegóły klauzuli K022: 
+                <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+                <br>
+                <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                <p>W umowie Ubezpieczenia Mienia od Ognia i Zdarzeń Losowych zawartej z zastosowaniem klauzuli, górna granica odpowiedzialności wskazana w parafrafie 7 ust. 1 pkt 12) OWU za szkody wyrządzone przez zwierzęta inne niż zwierzęta domowe wynosi 60 000 zł.</p>
+                <p>Zastosowanie klauzuli jest możliwe za opłatą dodatkowej składki.</p>
+                <br>
+                <h4>Które postanowienia OWU nie mają zastosowania?</h4>
+                <p>W tej klauzuli nie mają zastosowania postanowienia OWU w (paragraf) 7 ust. 1 pkt 12) dotyczące limitu 10% SU poszczególnych przedmiotów ubezpieczenia.</p>
+                <br>
+                <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+                <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+
+            </div>
+        </li>
+        <li class="clause-item">
+          <input type="checkbox" id="clause-5">
+          <label for="clause-5">
+              <strong>K024 Ubezpieczenie psa lub kota nieposiadającego rodowodu</strong>
+              <span class="clause-price">Składka: 107 zł</span>
+          </label>
+          <button class="toggle-details" onclick="toggleDetails('details-5')">Rozwiń pełną treść</button>
+          <div class="clause-details hidden" id="details-5">
+              Szczegóły klauzuli K024:
+              <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+              <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+              <br>
+              <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+              <p>W umowie Ubezpieczenia Mienia od Ognia i Zdarzeń Losowych zawartej z zastosowaniem klauzuli obejmujemy ochroną psy i koty nieposiadające rodowodu, należące do ubezpieczonego.</p>
+              <p>Zastosowanie klauzuli jest możliwe za opłatą dodatkowej składki.</p>
+              <br>
+              <h4>Jaki jest zakres ochrony?</h4>
+              <ul>
+                  <li>wypadek wywołany ruchem pojazdu;</li>
+                  <li>upadek z wysokości;</li>
+                  <li>pogryzienie przez inne zwierzęta, nienależące do ubezpieczonego;</li>
+                  <li>otrucie przez osobę trzecią;</li>
+                  <li>zdarzenia losowe zgodnie z OWU.</li>
+              </ul>
+              <p>Wypłacimy odszkodowanie lub świadczenie z tytułu:</p>
+              <ul>
+                  <li>kosztów leczenia weterynaryjnego;</li>
+                  <li>kosztów uśpienia z konieczności;</li>
+                  <li>kosztów kremacji i pochówku;</li>
+                  <li>śmierci psa lub kota (jednorazowe świadczenie)</li>
+              </ul>
+              <p>W razie zaginięcia zwierzęcia zwrócimy udokumentowane koszty prowadzenia akcji poszukiwawczej - płatne ogłoszenia, wydruk ulotek.</p>
+              <p>Ochrona ubezpieczeniowa obejmuje zdarzenia, które wystąpiły na terenie Polski.</p>
+              <br>
+              <h4>Jaki jest limit odpowiedzialności?</h4>
+              <p>Limit odpowiedzialności dla psów i kotów nieposiadających rodowodu wynosi 500 zł za śmierć oraz 5000 zł dla pozostałych kosztów, przy czym limity te stanowią górną granicę odpowiedzialności za wszystkie szkody z tytułu ubezpieczenia psów i kotów nieposiadających rodowodu.</p>
+              <p>W przypadku śmierci zwierzęcia wypłacane jest świadczenie w wysokości sumy ubezpieczenia, pomniejszonej o wartość wypłaconych wcześniej w okresie ubezpieczenia niniejszej umowy odszkodowań z tytułu ubezpieczenia psa lub kota.</p>
+              <br>
+              <h4>Jakie są dodatkowe postanowienia klauzuli?</h4>
+              <p>Aby otrzymać odszkodowanie, ubezpieczony musi udostępnić książeczkę zdrowia psa lub kota nieposiadającego rodowodu.</p>
+              <p>W zakresie nieuregulowanym tą klauzulą stosujemy postanowienia OWU.</p>
+          </div>
+      </li>
+      
+        <li class="clause-item">
+            <input type="checkbox" id="clause-6">
+            <label for="clause-6">
+                <strong>K025 Ubezpieczenie psa lub kota nieposiadającego rodowodu z rozszerzeniem zakresu ubezpieczenia o nagłe zachorowanie</strong>
+                <span class="clause-price">Składka: 155 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-6')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-6">
+                <div class="clause-item">
+                    <h4>Szczegóły klauzuli K025:</h4>
+                    <p>Ubezpieczenie psa lub kota nieposiadającego rodowodu z rozszerzeniem ubezpieczenia o nagłe zachorowanie.</p>
+                  
+                    <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                    <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń Pozakomunikacyjnych ERGO 7 (OWU), kod: C-E7-PK-01/24</C-E7-PK-01/24>.</p>
+                  
+                    <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                    <p>
+                      W umowie Ubezpieczenia Mienia od Ognia i Zdarzeń Losowych zawartej z zastosowaniem klauzuli obejmujemy ochroną psy lub koty nieposiadające rodowodu, należące do ubezpieczonego.
+                      Zastosowanie klauzuli jest możliwe za opłatą dodatkowej składki.
+                    </p>
+                  
+                    <h4>Jaki jest zakres ochrony?</h4>
+                    <p>W razie wystąpienia u psa lub kota nieposiadającego rodowodu:</p>
+                    <ul>
+                      <li>wypadku wywołanego ruchem pojazdu;</li>
+                      <li>upadku z wysokości;</li>
+                      <li>pogryzienia przez inne zwierzę, nienależące do ubezpieczonego;</li>
+                      <li>otrucia przez osobę trzecią;</li>
+                      <li>zdarzenia losowego zgodnie z OWU;</li>
+                      <li>nagłego zachorowania.</li>
+                    </ul>
+                    <p>Wypłacamy odszkodowanie lub świadczenie z tytułu:</p>
+                    <ul>
+                      <li>kosztów leczenia weterynaryjnego;</li>
+                      <li>kosztów uśpienia z konieczności;</li>
+                      <li>kosztów kremacji i pochówku;</li>
+                      <li>śmierci psa lub kota (jednorazowe świadczenie).</li>
+                    </ul>
+                    <p>
+                      W razie zaginięcia zwierzęcia zwrócimy udokumentowane koszty prowadzenia akcji poszukiwawczej – płatne ogłoszenia, wydruk ulotek.
+                      Dodatkowo, ochrona ubezpieczeniowa obejmuje nagłe zachorowanie ubezpieczonego psa lub kota nieposiadającego rodowodu.
+                      Ochrona ubezpieczeniowa obejmuje zdarzenia, które wystąpiły na terenie Polski.
+                    </p>
+                  
+                    <h4>Co oznacza termin "nagłe zachorowanie"?</h4>
+                    <p>
+                      Nagłe zachorowanie to stan chorobowy powstały w sposób nagły i zagrażający zdrowiu lub życiu ubezpieczonego psa lub kota, który wymaga natychmiastowej pomocy lekarza weterynarii.
+                    </p>
+                  
+                    <h4>Co oznacza termin "lekarz weterynarii"?</h4>
+                    <p>Lekarz weterynarii to osoba aktywna zawodowo, która:</p>
+                    <ul>
+                      <li>ukończyła 5,5-letnie studia na jednym z wydziałów medycyny weterynaryjnej i</li>
+                      <li>uzyskała prawo do wykonywania zawodu wydane przez Okręgową Izbę Lekarsko-Weterynaryjną w Polsce; lub</li>
+                      <li>uzyskała prawo do wykonywania zawodu na podstawie obowiązujących przepisów.</li>
+                    </ul>
+                  
+                    <h4>Jaki jest limit odpowiedzialności?</h4>
+                    <p>
+                      Limit odpowiedzialności dla psów i kotów nieposiadających rodowodu wynosi:
+                    </p>
+                    <ul>
+                      <li>500 zł za śmierć;</li>
+                      <li>5000 zł dla pozostałych kosztów oraz nagłego zachorowania.</li>
+                    </ul>
+                    <p>
+                      Limity te stanowią górną granicę odpowiedzialności za wszystkie szkody z tytułu ubezpieczenia psów i kotów nieposiadających rodowodu. 
+                      W przypadku śmierci zwierzęcia wypłacane jest świadczenie w wysokości sumy ubezpieczenia, pomniejszonej o wartość wypłaconych wcześniej odszkodowań.
+                    </p>
+                  
+                    <h4>W jaki sposób ustalana jest wartość odszkodowania?</h4>
+                    <p>
+                      Wartość odszkodowania ustalamy na podstawie dokumentów, które potwierdzają poniesienie kosztów objętych zakresem ubezpieczenia.
+                      W przypadku nagłego zachorowania zwierzęcia wysokość odszkodowania pomniejszamy o udział własny wynoszący 15% poniesionych kosztów leczenia.
+                    </p>
+                  
+                    <h4>W jakim zakresie nie ponosimy odpowiedzialności w przypadku nagłego zachorowania zwierzęcia?</h4>
+                    <p>W ramach klauzuli nie odpowiadamy za szkody powstałe wskutek:</p>
+                    <ul>
+                      <li>choroby, która była leczona lub zdiagnozowana przed rozpoczęciem ochrony ubezpieczeniowej;</li>
+                      <li>chorób dziedzicznych;</li>
+                      <li>braku zalecanych szczepień ochronnych;</li>
+                      <li>opieki związanej z ciążą i porodem;</li>
+                      <li>zabiegów stomatologicznych – z wyjątkiem leczenia chorób przyzębia;</li>
+                      <li>zaniedbań żywieniowych, odwodnienia;</li>
+                      <li>leczenia eksperymentalnego.</li>
+                    </ul>
+                    <p>Dodatkowo, nie odpowiadamy za koszty:</p>
+                    <ul>
+                      <li>badań profilaktycznych, kontrolnych;</li>
+                      <li>szczepień, odrobaczania (z wyjątkiem leczenia objawowego);</li>
+                      <li>rehabilitacji, zakupu protez;</li>
+                      <li>żywienia specjalistycznego poza kliniką.</li>
+                    </ul>
+                  
+                    <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+                    <p>Aby otrzymać odszkodowanie, ubezpieczony musi udostępnić książeczkę zdrowia psa lub kota.</p>
+                    <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU. </p>
+                  </div>
+            </div>
+        </li>   
+
+         <li class="clause-item">
+                <input type="checkbox" id="clause-7">
+                <label for="clause-7">
+                    <strong>K026 Ubezpieczenie psa lub kota posiadającego rodowód</strong>
+                    <span class="clause-price">Składka: 299 zł</span>
+                </label>
+                <button class="toggle-details" onclick="toggleDetails('details-7')">Rozwiń pełną treść</button>
+                <div class="clause-details hidden" id="details-7">
+                <div class="clause-item">
+                  <h4>Szczegóły klauzuli K026</h4>
+                </div>
+                    
+         </li>
+        
+         <li class="clause-item">
+                    <input type="checkbox" id="clause-8">
+                    <label for="clause-8">
+                        <strong>K027 Ubezpieczenie psa lub kota posiadającego rodowód z rozszerzeniem zakresu ubezpieczenia o nagłe zachorowanie</strong>
+                        <span class="clause-price">Składka: 443 zł</span>
+                    </label>
+                    <button class="toggle-details" onclick="toggleDetails('details-8')">Rozwiń pełną treść</button>
+                    <div class="clause-details hidden" id="details-8">
+                            <h4>Szczegóły klauzuli K025:</h4>
+                            
+                          </div>
+            </li>
+                 
+        <li class="clause-item">
+                    <input type="checkbox" id="clause-9">
+                    <label for="clause-9">
+                        <strong>K032 Przerwa w działaniu instalacji fotowoltaicznej</strong>
+                        <span class="clause-price">Składka: 40 zł</span>
+                    </label>
+                    <button class="toggle-details" onclick="toggleDetails('details-9')">Rozwiń pełną treść</button>
+                    <div class="clause-details hidden" id="details-9">
+                        Szczegóły klauzuli K032:
+                        <h4>Do któreych umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                        <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń Pozakomunikacyjnych ERGO 7 (OWU), kod: C-E7-PK-01/24 </p>
+                         <br>
+                         <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                        <p> W umowie Ubezpieczenia Mienia od Zdarzeń Losowych zawartej z zastosowaniem klauzuli ochrona obejmuje zwrot dodatkowych kosztów zakupu energii elektrycznej wynikających z przerwy w działaniu instalacji fotowoltaicznej w przypadku jej uszkodzenia, zniszczenia lub utraty wskutek zdarzenia objętego ochroną ubezpieczeniową.</p>
+                        <p>Zastosowanie klauzli jest możliwe za opłatą dodatkowej składki.</p>
+                         <br>
+                         <h4>Co rozumiemy przez przzerwę w działaniu instalacji fotowoltaicznej?</h4>
+                        <p>Przewa w działaniu instalacji fotowoltaicznej - to całkowite zaprzestanie produkcji energii elektrycznej przez instalację fotowoltaiczną w wyniku zajścia zdarzenia objętego ochroną ubezpieczeniową.</p>
+                        <br>
+                        <h4>Jaki jest maksymalny okres, za jaki zwracamy koszty?</h4>
+                        <p>Maksymalny okres, za jaki zwracamy koszty zakupu energii elektrycznej wynosi 90 dni.</p>
+                        <br>
+                        <h4>Jak ustalana jest wysokość odszkodowania?</h4>
+                        <p>Wartość odszkodowania wyliczamy jako różnicę pomiędzy średnim dziannym kosztem zakupu energii elektrycznej na podstawie faktury za analogiczny okres poprzedniego roku, gdy instalacja fotowoltaiczna zasilała miejsce ubezpieczenia, a średnim dziennym kosztem zakupu energii elektrycznej na podstawie faktury obejmującej okres przerwy w działaniu instalacji fotowoltaicznej - pomnożonym przez czas trwania przerwy.</p>
+                        <br>
+                        <h4>Jaki jest limit odpowiedzialności?</h4>
+                        <p>Limit odpowiedzialności wynosi 2500 zł.</p>
+                        <p>W przypadku gdy nie ma możliwości udokumentowania wysokości kosztów, o których mowa w klauzli, stosujemy ryczałt w wysokości 150 zł/miesiąc, proporcjonalnie do okresu przerwy w działaniu instalacji.</p>
+                        <br>
+                        <h4>Jakie są inne postanowienia dotyczące klauzli?</h4>
+                        <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+                    </div>
+                </li>
+                  
+        <li class="clause-item">
+            <input type="checkbox" id="clause-10">
+            <label for="clause-10">
+                <strong>K041 Ubezpieczenie rowerów, rowerów elektrycznych i hulajnóg elektrycznych z sumą ubezpieczenia 5000 zł</strong>
+                <span class="clause-price">Składka: 149 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-10')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-10">
+                Szczegóły klauzuli K041: 
+                <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                    <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+                    <br>
+                    <h4>Jakie zmiany w umowie wprowadzamy klauzulą?</h4>
+                    <p>W umowie Ubezpieczenia Mienia zawartej z zastosowaniem klauzuli, ochrona ubezpieczeniowa obejmuje dodatkowo rowery, rowery elektryczne i hulajnogi elektryczne.</p>
+                    <p>Zastosowanie klauzuli jest możliwe za opłatą dodatowej składki.</p>
+                    <br>
+                    <h4>Jakie dodatkowe pojęcia wprowadza klauzula?</h4>
+                    <p>Przez użyte w klauzli pojęcia rozumie się:</p>
+                    <ul>
+                        <li>Kradzież</li>
+                        <p>a) zamkniętego pomieszczenia po usunięciu siłą jego zabezpieczeń lub otwarciu wejścia do niego przy użyciu narzędzi albo podrobionego klucza (kradzieży z włamaniem); lub</p>
+                        <p>b) każdego miejsca, jeżeli sprzęt był zabezpieczony zabezpieczeniem przeciwkradzieżowym (kradzieży zwykłej).</p>
+                        <p>Kradzież nie obejmuje zabrania poszczególnych części czy wyposażenia dodatkowego sprzętu.</p>
+                        <li>Rabunek - zabranie sprzętu przy użyciu lub groźbie natychmiastowego użycia przemocy fizycznej wobec osoby go użytkującej lub po doprowadzeniu jej do stanu nieprzytomności lub bezbronności. Nie odpowiadamy za rabunek części lub dodatkowego wyposażenia sprzętu.</li>
+                        <li>Sprzęt - rower, rower elektryczny lub hulajnoga elektryczna.</li>
+                        <li>Wypadek - zderzenie sprzętu z innymi pojazdami, przedmiotami, osobami lub zwierzętami.</li>
+                        <li>Wyposażenie dodatkowe - przedmioty, takie jak np.: siodełko, błotniki, fotelik dziecięcy, lampka, prędkościomierz, kask rowerowy które nie są:</li>
+                        <p>a. oryginalnym wyposażeniem roweru, roweru elektrycznego lub hulajnogi elektycznej; </p>
+                        <p>b. integralną częścią ubezpieczonego roweru, roweru elektrycznego lub hulajnogi elektrycznej w zestawie producenta.</p>
+                        <li>Zabezpieczenie przeciwkradzieżowe - urządzenie, które zapobiega zabraniu sprzętu przez osoby trzecie, takie jak:</li>
+                        <p>a. łańcuch z zamkiem;</p>
+                        <p>b. zapięcie kabłąkowe (szeklowe) ze stali z zamkiem;</p>
+                        <p>c. U-lock z zamkiem;</p>
+                        <p>d. U-lock ze stali z podwójnie blokowanym zamkiem ze stali specjalnie hartowanej;</p>
+                        <p>e. urządzenie umożliwiające przypięcie sprzętu do stojaka rowerowego lub innego obiektu połączonego na stałe z gruntem lub budowlą. </p>
+                    </ul>
+                    <br>
+                    <h4>Co jest przedmiotem ubezpieczenia?></h4>
+                    <p>Ubezpieczamy rowery, rowery elektryczne lub hulajnogi elektryczne, które w chwili zawarcia umowy ubezpieczeniowej miały maksymalnie 5 lat od daty zakupu jako fabrycznie nowe.</p>
+                    <br>
+                    <h4>Za jakie szkody odpowiadamy?</h4>
+                    <p>Ochroną ubezpieczeniową objęte są szkody, które powstały na terenie Polski i polegają na uszkodzeniu lub utracie sprzętu w wyniku kradzieży, rabunku lub wypadku.</p>
+                    <br>
+                    <h4>Do jakiej wysokości przyjmujemy odpowiedzialność?</h4>
+                    <p>Suma ubezpieczenia wynosi 5000 zł, jednak nie odpowiadamy za szkody, których wartość nie przekracza 250 zł. W przypadku szkód związanych z kradzieżą pomniejszamy wypłacone odszkodowanie o udział własny wynoszący 15% wartości szkody.</p>
+                    <br>
+                    <h4>Jakie są warunki wypłaty odszkodowania?</h4>
+                    <p>W przypadku przechowywania lub zaparkowania roweru, roweru elektrycznego lub hulajnogi elektrycznej poza pomieszczeniami, sprzęt musi być przypięty do stojaka rowerowego lub do elementu przymocowanego na stałe (np. barierka balkonu, słup, bagażnik samochodowy) za pomocą zabezpieczenia przeciwkradzieżowego wskazanego w definicji tej klauzli.</p>
+                    <br>
+                    <h4>Jakie są ograniczenia odpowiedzialności?</h4>
+                    <p>1. Dodatkowe wyposażenie sprzętu nie jest objęte ochroną ubezpieczeniową.</p>
+                    <p>2. Nie odpowiadamy za szkody, jeśli kradzież nie została zgłoszona Policji, a ubezpieczony nie dostarczył pisemnego potwierdzenia tego zgłoszenia.</p>
+                    <p>3. Ubezpieczenie nie obejmuje szkód polegających wyłacznie na zużyciu eksploatacyjnym.</p>
+                    <p>4. Ubezpieczenie nie obejmuje szkód w samym ogumieniu.</p>
+                    <br>
+                    <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+                    <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+            </div>
+        </li>
+             <li class="clause-item">
+                <input type="checkbox" id="clause-11">
+                <label for="clause-11">
+                    <strong>K024 Ubezpieczenie rowerów, rowerów elektrycznych i hulajnóg elektrycznych z sumą ubezpieczenia 20 000 zł</strong>
+                    <span class="clause-price">Składka: 449 zł</span>
+                </label>
+                <button class="toggle-details" onclick="toggleDetails('details-11')">Rozwiń pełną treść</button>
+                <div class="clause-details hidden" id="details-11">
+                    Szczegóły klauzuli K042:
+                    <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                    <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń pozakomunikacyjnych ERGO 7 (OWU) kod:C-E7-PK-01/24.</p>
+                    <br>
+                    <h4>Jakie zmiany w umowie wprowadzamy klauzulą?</h4>
+                    <p>W umowie Ubezpieczenia Mienia zawartej z zastosowaniem klauzuli, ochrona ubezpieczeniowa obejmuje dodatkowo rowery, rowery elektryczne i hulajnogi elektryczne.</p>
+                    <p>Zastosowanie klauzuli jest możliwe za opłatą dodatowej składki.</p>
+                    <br>
+                    <h4>Jakie dodatkowe pojęcia wprowadza klauzula?</h4>
+                    <p>Przez użyte w klauzli pojęcia rozumie się:</p>
+                    <ul>
+                        <li>Kradzież</li>
+                        <p>a) zamkniętego pomieszczenia po usunięciu siłą jego zabezpieczeń lub otwarciu wejścia do niego przy użyciu narzędzi albo podrobionego klucza (kradzieży z włamaniem); lub</p>
+                        <p>b) każdego miejsca, jeżeli sprzęt był zabezpieczony zabezpieczeniem przeciwkradzieżowym (kradzieży zwykłej).</p>
+                        <p>Kradzież nie obejmuje zabrania poszczególnych części czy wyposażenia dodatkowego sprzętu.</p>
+                        <li>Rabunek - zabranie sprzętu przy użyciu lub groźbie natychmiastowego użycia przemocy fizycznej wobec osoby go użytkującej lub po doprowadzeniu jej do stanu nieprzytomności lub bezbronności. Nie odpowiadamy za rabunek części lub dodatkowego wyposażenia sprzętu.</li>
+                        <li>Sprzęt - rower, rower elektryczny lub hulajnoga elektryczna.</li>
+                        <li>Wypadek - zderzenie sprzętu z innymi pojazdami, przedmiotami, osobami lub zwierzętami.</li>
+                        <li>Wyposażenie dodatkowe - przedmioty, takie jak np.: siodełko, błotniki, fotelik dziecięcy, lampka, prędkościomierz, kask rowerowy które nie są:</li>
+                        <p>a. oryginalnym wyposażeniem roweru, roweru elektrycznego lub hulajnogi elektycznej; </p>
+                        <p>b. integralną częścią ubezpieczonego roweru, roweru elektrycznego lub hulajnogi elektrycznej w zestawie producenta.</p>
+                        <li>Zabezpieczenie przeciwkradzieżowe - urządzenie, które zapobiega zabraniu sprzętu przez osoby trzecie, takie jak:</li>
+                        <p>a. łańcuch z zamkiem;</p>
+                        <p>b. zapięcie kabłąkowe (szeklowe) ze stali z zamkiem;</p>
+                        <p>c. U-lock z zamkiem;</p>
+                        <p>d. U-lock ze stali z podwójnie blokowanym zamkiem ze stali specjalnie hartowanej;</p>
+                        <p>e. urządzenie umożliwiające przypięcie sprzętu do stojaka rowerowego lub innego obiektu połączonego na stałe z gruntem lub budowlą. </p>
+                    </ul>
+                    <br>
+                    <h4>Co jest przedmiotem ubezpieczenia?></h4>
+                    <p>Ubezpieczamy rowery, rowery elektryczne lub hulajnogi elektryczne, które w chwili zawarcia umowy ubezpieczeniowej miały maksymalnie 5 lat od daty zakupu jako fabrycznie nowe.</p>
+                    <br>
+                    <h4>Za jakie szkody odpowiadamy?</h4>
+                    <p>Ochroną ubezpieczeniową objęte są szkody, które powstały na terenie Polski i polegają na uszkodzeniu lub utracie sprzętu w wyniku kradzieży, rabunku lub wypadku.</p>
+                    <br>
+                    <h4>Do jakiej wysokości przyjmujemy odpowiedzialność?</h4>
+                    <p>Suma ubezpieczenia wynosi 20 000 zł, jednak nie odpowiadamy za szkody, których wartość nie przekracza 250 zł. W przypadku szkód związanych z kradzieżą pomniejszamy wypłacone odszkodowanie o udział własny wynoszący 15% wartości szkody.</p>
+                    <br>
+                    <h4>Jakie są warunki wypłaty odszkodowania?</h4>
+                    <p>W przypadku przechowywania lub zaparkowania roweru, roweru elektrycznego lub hulajnogi elektrycznej poza pomieszczeniami, sprzęt musi być przypięty do stojaka rowerowego lub do elementu przymocowanego na stałe (np. barierka balkonu, słup, bagażnik samochodowy) za pomocą zabezpieczenia przeciwkradzieżowego wskazanego w definicji tej klauzli.</p>
+                    <br>
+                    <h4>Jakie są ograniczenia odpowiedzialności?</h4>
+                    <p>1. Dodatkowe wyposażenie sprzętu nie jest objęte ochroną ubezpieczeniową.</p>
+                    <p>2. Nie odpowiadamy za szkody, jeśli kradzież nie została zgłoszona Policji, a ubezpieczony nie dostarczył pisemnego potwierdzenia tego zgłoszenia.</p>
+                    <p>3. Ubezpieczenie nie obejmuje szkód polegających wyłacznie na zużyciu eksploatacyjnym.</p>
+                    <p>4. Ubezpieczenie nie obejmuje szkód w samym ogumieniu.</p>
+                    <br>
+                    <h4>Jakie są inne postanowienia dotyczące klauzuli?</h4>
+                    <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+                    
+                </div>
+        </li>
+        <li class="clause-item">
+            <input type="checkbox" id="clause-12">
+            <label for="clause-12">
+                <strong>K107 Rzeczy osobiste studenta/ucznia w tymczasowym miejscu zamieszkania</strong>
+                <span class="clause-price">Składka: 40 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-12')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-12">
+                Szczegóły klauzuli K107: 
+                <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+                <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń Pozakomunikacyjnych ERGO 7 (OWU), kod: C-E7-PK-01/24 </p>
+                <br>
+                <h4>Jakie zmiany w umowie ubezpieczenia wprowadza kaluzula?</h4>
+                <p>W umowie ubezpieczenia Mienia od Ognia i Zdarzeń Losowych oraz Ubezpieczenia Mienia od Kradzieży zawartych z zastosowaniem tej klauzli, ochrona ubezpieczeniowa obejmuje rzeczy osobiste dziecka ubezpieczonego, które jest studentem lub uczniem i przechowuje rzeczy czasowo poza miejscem ubezpieczenia w wynajętym pokoju w akademiku, internacie, bursie, hotelu studenckim, pokoju w mieszkaniu/domu/lokalu mieszkalnym.</p>
+                <br>
+                <h4>Jaki jest zakres ochrony w ramach klauzli?</h4>
+                <p>a) Niezależnie od wybranego Wariantu Ubezpieczenia w Ubezpieczeniu Mienia od Ognia i Zdarzeń Losowych odpowiadamy za szkody, które powstały w wyniku zdarzenia losowego.</p>
+                <p>b) Niezależnie od wybranego Wariantu Ubezpieczenia w Ubezpieczeniu Mienia od Kradzieży odpowiadamy za kradzież z włamaniem lub rabunek.</p>
+                <br>
+                <p>Jeżeli ochroną ma być objęte zarówno Ubezpieczenie Mienia od Ognia i Zdarzeń Losowych oraz Ubezpieczenia Mienia od Kradzieży klient powienien wskazać odrębne SU rzeczy osobistych w ubezpieczeniu mienia i kradzieży.</p>
+                <br>
+                <h4>Jakie zabezpieczenia przeciwkradzieżowe powinny zostać spelnione w Ubezpieczeniu Mienia od Kradzieży?</h4>
+                <p>Miejsce zamieszkania ucznia/studenta musi posiadać zabezpieczenia przeciwkradzieżowe zgodne z (paragraf)29 OWU. W przypadku, gdy wynajmowany pokój znajduje się w akademiku, hotelu studenckim lub bursie, zabezpieczenia dotyczą wynajmowanego pokoju.</p>
+                <br>
+                <h4>Które powstanowienia OWU nie mają zastosowania?</h4>
+                <p>Do umowy ubezpieczenia zawartej na podstawie tej kaluzli w zakresie odpowiedzialności rzeczy osobiste studenta/ucznia nie mają zastosowania postanowienia OWU: (paragraf)4 ust. 8.</p>
+                <br>
+                <h4>Co oznaczna termin dziecko ubezpieczonego?</h4>
+                <p>Dziecko ubezpieczonego to dziecko biologiczne, pasierb/pasierbica, przysposobiony/przysposobiona.</p>
+                <br>
+                <h4>Jaki jest limit odpowiedzialności?</h4>
+                <p>Limit odpowiedzialności wynosi 5 000 zł w granicach sumy ubezpieczenia rzeczy osobistych.</p>
+                <br>
+                <h4>Jakie są inne postanowienia dotyczące klauzli?</h4>
+                <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+            </div>
+        </li>
+        <li class="clause-item">
+            <input type="checkbox" id="clause-13">
+            <label for="clause-13">
+                <strong>K109 Kradzież przez okno otwarte w III wariancie</strong>
+                <span class="clause-price">Składka: 6 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-13')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-13">
+                Szczegóły klauzuli K109: 
+                <h4>Do których umów ubezpieczenia kaluzula ma zastosowanie?</h4>
+                <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń Pozakomunikacyjnych ERGO 7 (OWU), kod: C-E7-PK-01/24</p>
+                <br>
+                <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                <p>W umowie Ubezpieczenia Mienia od Kradzieży zawartej w Wariancie III z zastosowaniem klauzuli ochrona obejmuje szkody powstałe w następstwie pozostawienia niezamkniętych otworów okiennych.</p>
+                <p>Zastosowanie klauzuli jest możliwe za opłatą dodatkowej składki.</p>
+                <br>
+                <h4>Które postanowienia OWU nie mają zastosowania?</h4>
+                <p>Do umowy ubezpieczenia zawartej na podstawie tej klauzli nie mają zastosowania postanowienia (paragraf) 4 ust. 20 lit. d), (paragraf) 28 ust. 1 oraz (paragraf) 29 ust. 1 OWU w zakresie niedopełnienia obowiązku zamknięcia i zabezpieczenia okien.</p>
+                <br>
+                <h4>Jakie limity odpowiedzialności wprowadza klauzula?</h4>
+                <p>Dla tej klauzuli limit odpowiedzialności wynosi 20 000 zł, w graniach SU.</p>
+                <br>
+                <h4>Jakie są inne postanowienia dotyczące klauzli?</h4>
+                <p>W zakresie nieuregulowanym tą klauzulą obowiązują postanowienia OWU.</p>
+            </div>
+        </li>
+        <li class="clause-item">
+            <input type="checkbox" id="clause-14">
+            <label for="clause-14">
+                <strong>K111 Zwrot kosztów za wodę w przypadku zalania</strong>
+                <span class="clause-price">Składka: 20 zł</span>
+            </label>
+            <button class="toggle-details" onclick="toggleDetails('details-14')">Rozwiń pełną treść</button>
+            <div class="clause-details hidden" id="details-14">
+                Szczegóły klauzuli K111: 
+                <h4>Do których umów ubezpieczenia klauzula ma zastosowanie?</h4>
+               <p>Klauzula ma zastosowanie do umów ubezpieczenia zawartych na podstawie Ogólnych Warunków Ubezpieczeń Pozakomunikacyjnych ERGO 7 (OWU), kod: C-E7-PK-01/24 </p>
+               <br>
+               <h4>Jakie zmiany w umowie ubezpieczenia wprowadzamy klauzulą?</h4>
+                <p> W umowie Ubezpieczenia Mienia od Zdarzeń Losowych zawartej z zastosowaniem klauzuli ochrona obejmuje zwrot dodatkowych kosztów, jakie poniósł ubezpieczony za wyciek wody powodujący zalanie, za które przyjęliśmy odpowiedzialność.</p>
+                <p>Zastosowanie klauzli jest możliwe za opłatą dodatkowej składki.</p>
+                <br>
+                <h4>Co rozumiemy przez wyciek wody?</h4>
+                <p>Niekontrolowane wydostanie się wody z urządzeń sieci lub instalacji wodociągowej, kanalizacyjnej lub grzewczej, które doprowadziło do zalania. </p>
+                <br>
+                <h4>Jak ustalana jest wysokość odszkodowania?</h4>
+                <p>Odszkodowanie wyliczamy dla okresu zwiększonego zużycia wody w wyniku awarii instalacji wodociągowej, która spowodowała zalanie. Wartość odszkodowania wyliczamy jako różnicę pomiędzy średnim kosztem zużycia wody na podstawie faktury za analogiczny okres poprzedniego roku a kosztem zużycia wody na podstawie faktury obejmującej okres, w którym miało miejsce zalanie. Po uwzględnieniu upustów i rabatów wynikających z decyzji dostawcy wody po rozpatrzeniu wniosku ubezpieczającego o taki upust lub rabat związany z zaistniałą awarią. Obowiązkiem ubezpieczającego jest zgłoszenie awarii do dostawcy wody i złożenie wniosku o upust lub rabat.</p>
+                <br>
+                <h4>Jaki jest limit odpowiedzialności?</h4>
+                <p>Limit odpowiedzialności wynosi 2500 zł. W przypadku, gdy nie ma możliwości udokumentowania wysokości kosztów, o których mowa w klauzuli, stosujemy ryczałt wysokości 150 zł/miesiąc.</p>
+                <br>
+                <h4>Jakie są inne postanowienia dotyczące klauzli?</h4>
+                <p>W zakresie nieuregulowanym tą klauzulą stosujemy postanowienia OWU.</p>
+            
+            </div>
+        </li>
+    </ul>
+
+
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(4)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(6)">Dalej</button>
+    </div>
+</div>
+
+
+<div id="section6" class="form-section">
+    <h2>Cesja-mienie:</h2>
+    <div class="form-group">
+        <label for="nazwa-firmy">Nazwa firmy</label>
+        <input type="text" id="nazwa-firmy" name="nazwa-firmy" placeholder="Podaj nazwę firmy">
+    </div>
+    <div class="form-group">
+        <label for="nip-regon-kraj">NIP/REGON/Kraj pochodzenia</label>
+        <input type="text" id="nip-regon-kraj" name="nip-regon-kraj" placeholder="Podaj NIP, REGON,  kraj pochodzenia">
+    </div>
+    <div class="form-group">
+        <label for="adres-staly">Adres stały z kodem i miejscowością</label>
+        <input type="text" id="adres-staly" name="adres-staly" placeholder="Podaj pełny adres, np. ul. Polna 4, 04-439 Warszawa">
+    </div>
+    <div class="form-group">
+        <label for="ulica-numer-lokal">Ulica, numer, lokal</label>
+        <input type="text" id="ulica-numer-lokal" name="ulica-numer-lokal" placeholder="Podaj ulicę, numer i lokal, np. Polna 4/10">
+    </div>
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(5)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(7)">Dalej</button>
+    </div>
+</div>
+
+<div id="section7" class="form-section">
+    <h2>Sposób płatności:</h2>
+    <div class="form-group">
+        <label for="czestotliwosc-skladki">Częstotliwość składki</label>
+        <select id="czestotliwosc-skladki" name="czestotliwosc-skladki">
+            <option value="jednorazowa">Jednorazowa</option>
+            <option value="2raty">2 raty</option>
+            <option value="4raty">4 raty</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="sposob-platnosci">Sposób płatności</label>
+        <select id="sposob-platnosci" name="sposob-platnosci">
+            <option value="przelew">Przelew bankowy</option>
+            <option value="karta">Karta płatnicza</option>
+            <option value="blik">BLIK</option>
+            <option value="gotowka">Gotówka</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="odroczenie-skladki">Odroczenie składki</label>
+        <select id="odroczenie-skladki" name="odroczenie-skladki">
+            <option value="brak">Brak odroczenia</option>
+            <option value="7dni">Odroczenie o 7 dni</option>
+            <option value="14dni">Odroczenie o 14 dni</option>
+            <option value="30dni">Odroczenie o 30 dni</option>
+        </select>
+    </div>
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(6)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(8)">Dalej</button>
+    </div>
+</div>
+
+<div id="section8" class="form-section">
+    <h2>Daty ubezpieczenia:</h2>
+    <div class="form-group">
+        <label for="data-od">Data rozpoczęcia ubezpieczenia</label>
+        <input type="date" id="data-od" name="data-od">
+    </div>
+    <div class="form-group">
+        <label for="data-do">Data zakończenia ubezpieczenia</label>
+        <input type="date" id="data-do" name="data-do">
+    </div>
+    <div class="button-group">
+        <button class="prev-btn" onclick="showPreviousSection(7)">Wstecz</button>
+        <button class="next-btn" onclick="showNextSection(9)">Dalej</button>
+    </div>
+</div>
+
+
+
+        <!-- Sekcja 5: Podsumowanie i zakończenie -->
+        <div id="section9" class="form-section">
+            <h2>Podsumowanie:</h2>
+            <p>Proszę sprawdzić wprowadzone dane przed wysłaniem formularza.</p>
+            <div class="button-group">
+                <button class="prev-btn" onclick="showPreviousSection(8)">Wstecz</button>
+                <button onclick="submitForm()">Wyślij</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2024 Twoja firma</p>
+        <div class="social-icons">
+            <a href="#"><img src="facebook.png" alt="Facebook"></a>
+            <a href="#"><img src="instagram.png" alt="Instagram"></a>
+            <a href="#"><img src="linkedin.png" alt="LinkedIn"></a>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let currentSection = 0;
+
+        function showNextSection(sectionIndex) {
+            const sections = document.querySelectorAll('.form-section');
+            if (currentSection < sections.length - 1) {
+                sections[currentSection].classList.remove('active');
+                currentSection = sectionIndex || currentSection + 1;
+                sections[currentSection].classList.add('active');
+                sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function showPreviousSection(sectionIndex) {
+            const sections = document.querySelectorAll('.form-section');
+            if (currentSection > 0) {
+                sections[currentSection].classList.remove('active');
+                currentSection = sectionIndex || currentSection - 1;
+                sections[currentSection].classList.add('active');
+                sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Funkcja do przełączania widoczności tekstu informacyjnego
+        function toggleInfo(infoId) {
+            const infoText = document.getElementById(infoId);
+            infoText.classList.toggle('show');
+        }
+
+        // Obsługa współwłaścicieli
+        const wspolwlasnosc = document.getElementById('wspolwlasnosc');
+        wspolwlasnosc.addEventListener('change', function() {
+            const wspolwlasnoscDetails = document.getElementById('wspolwlasnosc-details');
+            wspolwlasnoscDetails.style.display = wspolwlasnosc.value === 'tak' ? 'block' : 'none';
+        });
+
+        // Funkcja do wysyłania formularza
+        function submitForm() {
+            alert("Formularz został wysłany!");
+        }
+        function selectOption(optionId) {
+        // Usuwamy aktywne podświetlenie ze wszystkich opcji
+        const options = document.querySelectorAll('.option-box');
+        options.forEach(option => option.classList.remove('active'));
+
+        // Dodajemy klasę aktywną do wybranej opcji
+        const selectedOption = document.getElementById(optionId);
+        selectedOption.classList.add('active');
+    }
+
+    // Wyświetlanie opcji dla Produktu 1
+function showProductOptions(optionsId) {
+    // Ukryj wszystkie opcje
+    const allOptions = document.querySelectorAll('.options');
+    allOptions.forEach(option => option.style.display = 'none');
+
+    // Pokaż wybrane opcje
+    document.getElementById(optionsId).style.display = 'block';
+}
+
+function toggleDetails(id) {
+        // Pobierz element z rozwijanymi szczegółami
+        const details = document.getElementById(id);
+
+        // Sprawdź obecny stan wyświetlania i zmień go
+        if (details.style.display === 'none' || details.style.display === '') {
+            details.style.display = 'block'; // Pokaż szczegóły
+        } else {
+            details.style.display = 'none'; // Ukryj szczegóły
+        }
+    }
+    // Function to search clauses
+
+// Funkcja dodawania produktów do koszyka
+function addToCart(productName, price) {
+    const cartItems = document.getElementById('cart-items');
+
+    // Dodaj produkt do listy w koszyku
+    const li = document.createElement('li');
+    li.textContent = `${productName} - ${price} zł`;
+    cartItems.appendChild(li);
+
+    alert(`${productName} dodano do koszyka!`);
+}
+
+// Funkcja dodawania produktów do koszyka
+function addToCart(productName, price) {
+    const cartItems = document.getElementById('cart-items');
+
+    // Dodaj produkt do listy w koszyku
+    const li = document.createElement('li');
+    li.textContent = `${productName} - ${price} zł`;
+    cartItems.appendChild(li);
+
+    alert(`${productName} dodano do koszyka!`);
+}
+function toggleWspolwlasnoscDetails() {
+        const wspolwlasnosc = document.getElementById('wspolwlasnosc').value;
+        const detailsSection = document.getElementById('wspolwlasnosc-details');
+        detailsSection.style.display = wspolwlasnosc === 'tak' ? 'block' : 'none';
+    }
+
+    function generateWspolwlascicieleFields() {
+        const container = document.getElementById('wspolwlasnosc-details-container');
+        const ilosc = parseInt(document.getElementById('ilosc-wspolwlasnikow').value, 10);
+
+        container.innerHTML = ''; // Wyczyść poprzednie pola
+
+        if (ilosc > 0) {
+            for (let i = 1; i <= ilosc; i++) {
+                const fieldset = document.createElement('div');
+                fieldset.classList.add('form-group');
+
+                fieldset.innerHTML = `
+                <h3>Współwłaściciel ${i}</h3>
+                    <label for="wspolwlasciciel-imie-${i}">Imię:</label>
+                    <input type="text" id="wspolwlasciciel-imie-${i}" name="wspolwlasciciel-imie-${i}" placeholder="Podaj imię">
+
+                    <label for="wspolwlasciciel-nazwisko-${i}">Nazwisko:</label>
+                    <input type="text" id="wspolwlasciciel-nazwisko-${i}" name="wspolwlasciciel-nazwisko-${i}" placeholder="Podaj nazwisko">
+                    
+                    <label for="wspolwlasciciel-pesel-${i}">PESEL:</label>
+                    <input type="text" id="wspolwlasciciel-pesel-${i}" name="wspolwlasciciel-pesel-${i}" placeholder="Podaj PESEL">
+
+                
+                `;
+                container.appendChild(fieldset);
+            }
+        }
+    }
+function updateDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString("pl-PL", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+            const time = now.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+            document.getElementById("date").textContent = date;
+            document.getElementById("time").textContent = time;
+        }
+
+        // Aktualizowanie daty i godziny co sekundę
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+
+    </script>
+</body>
+</html>
